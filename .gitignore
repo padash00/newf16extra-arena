@@ -1,0 +1,93 @@
+dependencies
+
+/node_modules
+/.pnp
+.pnp.js
+
+testing
+
+/coverage
+
+next.js
+
+/.next/
+/out/
+
+production
+
+/build
+
+misc
+
+.DS_Store
+*.pem
+
+debug
+
+npm-debug.log*
+yarn-debug.log*
+ts-debug.log*
+
+local env files
+
+.env*.local
+
+vercel
+
+.vercel
+
+
+### 2. Создание репозитория на GitHub
+1.  Зайди на [GitHub](https://github.com).
+2.  Нажми **New repository** (или плюсик справа сверху -> New repository).
+3.  Назови его, например: `f16-arena-website`.
+4.  Сделай его **Public** (чтобы Vercel мог его увидеть бесплатно) или **Private** (если хочешь скрыть код).
+5.  Нажми **Create repository**.
+
+### 3. Заливаем код (Команды в терминале)
+Открой терминал в папке с проектом (VS Code -> Terminal -> New Terminal) и выполняй команды по очереди:
+
+1.  Инициализируем Git:
+    ```bash
+    git init
+    ```
+
+2.  Добавляем все файлы:
+    ```bash
+    git add .
+    ```
+
+3.  Делаем первый коммит (сохранение):
+    ```bash
+    git commit -m "Initial commit: F16 Arena website"
+    ```
+
+4.  Привязываем твой проект к GitHub (скопируй эту команду со страницы созданного репозитория на GitHub, она выглядит так):
+    ```bash
+    git remote add origin https://github.com/ТВОЙ_НИК/f16-arena-website.git
+    ```
+    *(Замени ссылку на ту, что дал GitHub)*
+
+5.  Отправляем код в облако:
+    ```bash
+    git branch -M main
+    git push -u origin main
+    ```
+
+### 4. Деплой на Vercel
+1.  Зайди на [Vercel](https://vercel.com) и войди через GitHub.
+2.  Нажми **Add New...** -> **Project**.
+3.  В списке **Import Git Repository** найди свой репозиторий `f16-arena-website` и нажми **Import**.
+4.  В настройках (Configure Project):
+    * **Framework Preset:** Next.js (должно само определиться).
+    * **Root Directory:** `./` (оставь как есть).
+    * Остальное менять не нужно.
+5.  Нажми **Deploy**.
+
+Vercel начнет сборку. Через 1-2 минуты он выдаст тебе зеленую галочку и ссылку на твой работающий сайт (например, `f16-arena-website.vercel.app`).
+
+### Если будут ошибки при деплое:
+Частая ошибка — `lint` или `typescript` ошибки. Если деплой упадет, добавь в `package.json` в секцию `scripts` вот это (чтобы игнорировать строгие проверки при сборке):
+
+```json
+"build": "next build --no-lint"
