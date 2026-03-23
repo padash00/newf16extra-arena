@@ -3,27 +3,26 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Monitor, Gamepad2, Car, Users, Clock, Zap } from "lucide-react"
+import { Monitor, Gamepad2, Car, Users, Clock, Zap, Phone, MessageCircle, MapPin } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
+import { siteContent } from "@/lib/site-content"
 
-const stats = [
-  { label: "ПК всего", value: 66, description: "игровых станций", icon: Monitor },
-  { label: "PS5", value: 4, description: "консоли", icon: Gamepad2 },
-  { label: "SimRacing", value: 2, description: "установки", icon: Car },
-  { label: "Мониторы", value: 540, description: "Hz макс", icon: Zap, suffix: "Hz" },
-]
-
-const typedWords = ["Компьютеры", "PS5", "SimRacing", "вечеринки", "турниры"]
+const heroIcons = {
+  monitor: Monitor,
+  gamepad: Gamepad2,
+  car: Car,
+  zap: Zap,
+}
 
 export function HeroSection() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
-  const [counts, setCounts] = useState(stats.map(() => 0))
+  const [counts, setCounts] = useState(siteContent.hero.stats.map(() => 0))
   const [currentWord, setCurrentWord] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
   const [text, setText] = useState("")
 
   useEffect(() => {
-    const intervals = stats.map((stat, index) => {
+    const intervals = siteContent.hero.stats.map((stat, index) => {
       const target = stat.value
       let current = 0
 
@@ -46,7 +45,7 @@ export function HeroSection() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const fullText = typedWords[currentWord]
+      const fullText = siteContent.hero.typedWords[currentWord]
 
       if (isDeleting) {
         setText(fullText.substring(0, text.length - 1))
@@ -58,7 +57,7 @@ export function HeroSection() {
         setTimeout(() => setIsDeleting(true), 1500)
       } else if (isDeleting && text === "") {
         setIsDeleting(false)
-        setCurrentWord((prev) => (prev + 1) % typedWords.length)
+        setCurrentWord((prev) => (prev + 1) % siteContent.hero.typedWords.length)
       }
     }, isDeleting ? 50 : 100)
 
@@ -84,11 +83,11 @@ export function HeroSection() {
           <div className="space-y-6 animate-in slide-in-from-left-10 duration-700">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full text-sm">
               <span className="inline-flex h-2 w-2 rounded-full bg-primary" />
-              <span className="text-foreground">Работаем 24/7, бронь подтверждаем через WhatsApp</span>
+              <span className="text-foreground">{siteContent.hero.badge}</span>
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground tracking-tight">
-              F16 Arena
+              {siteContent.brand.name}
               <span className="text-primary block text-4xl sm:text-5xl lg:text-6xl mt-2 h-20 sm:h-24">
                 для {text}
                 <span className="animate-pulse">|</span>
@@ -96,7 +95,7 @@ export function HeroSection() {
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-xl leading-relaxed">
-              Топовое железо, PS5 и SimRacing. Пространство для игр, отдыха и встреч в Усть-Каменогорске.
+              {siteContent.hero.description}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -105,7 +104,7 @@ export function HeroSection() {
                 onClick={() => setIsBookingOpen(true)}
                 className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-10 py-6 rounded-full"
               >
-                Забронировать
+                Забронировать сейчас
               </Button>
               <Button
                 size="lg"
@@ -125,51 +124,108 @@ export function HeroSection() {
               </Button>
             </div>
 
+            <div className="grid sm:grid-cols-2 gap-3">
+              <a
+                href={`tel:+${siteContent.contacts.phones[0].phoneRaw}`}
+                className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm px-4 py-4 transition-colors hover:bg-card"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${siteContent.contacts.phones[0].badgeClass}`}>
+                    <Phone className={`h-5 w-5 ${siteContent.contacts.phones[0].accentClass}`} />
+                  </div>
+                  <div>
+                    <div className="text-xs uppercase tracking-wide text-muted-foreground">Быстрый звонок</div>
+                    <div className="font-semibold text-foreground">{siteContent.contacts.phones[0].phone}</div>
+                  </div>
+                </div>
+              </a>
+              <a
+                href={`https://wa.me/${siteContent.contacts.phones[1].phoneRaw}`}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm px-4 py-4 transition-colors hover:bg-card"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${siteContent.contacts.phones[1].badgeClass}`}>
+                    <MessageCircle className={`h-5 w-5 ${siteContent.contacts.phones[1].accentClass}`} />
+                  </div>
+                  <div>
+                    <div className="text-xs uppercase tracking-wide text-muted-foreground">PS5 и Extra</div>
+                    <div className="font-semibold text-foreground">WhatsApp за 30 секунд</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
             <div className="flex flex-wrap gap-6 pt-8">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-primary" />
-                <span className="text-sm text-foreground">24/7 без выходных</span>
+                <span className="text-sm text-foreground">{siteContent.hero.quickFacts[0]}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="w-5 h-5 text-primary" />
-                <span className="text-sm text-foreground">До 70 гостей</span>
+                <span className="text-sm text-foreground">{siteContent.hero.quickFacts[1]}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Zap className="w-5 h-5 text-primary" />
-                <span className="text-sm text-foreground">540Hz мониторы</span>
+                <span className="text-sm text-foreground">{siteContent.hero.quickFacts[2]}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-primary" />
+                <span className="text-sm text-foreground">{siteContent.brand.address}</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-8 animate-in slide-in-from-right-10 duration-700">
-            <h3 className="text-lg font-semibold text-foreground mb-6">Наши возможности</h3>
-
-            <div className="grid grid-cols-2 gap-4">
-              {stats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className="bg-secondary/20 rounded-xl p-4 text-center hover:bg-secondary/30 transition-colors"
-                >
-                  <stat.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-foreground font-mono">
-                    {counts[index]}
-                    {stat.suffix}
-                  </div>
-                  <div className="text-sm text-foreground">{stat.label}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{stat.description}</div>
+          <div className="space-y-5 animate-in slide-in-from-right-10 duration-700">
+            <div className="bg-card border border-border rounded-2xl p-8">
+              <div className="flex items-center justify-between gap-4 mb-6">
+                <h3 className="text-lg font-semibold text-foreground">Наши возможности</h3>
+                <div className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                  Бронь за 30 секунд
                 </div>
-              ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                {siteContent.hero.stats.map((stat, index) => {
+                  const Icon = heroIcons[stat.icon]
+
+                  return (
+                    <div
+                      key={stat.label}
+                      className="bg-secondary/20 rounded-xl p-4 text-center hover:bg-secondary/30 transition-colors"
+                    >
+                      <Icon className="w-6 h-6 text-primary mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-foreground font-mono">
+                        {counts[index]}
+                        {"suffix" in stat ? stat.suffix : null}
+                      </div>
+                      <div className="text-sm text-foreground">{stat.label}</div>
+                      <div className="text-xs text-muted-foreground mt-1">{stat.description}</div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <div className="mt-6 pt-6 border-t border-border">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Формат брони:</span>
+                  <span className="text-foreground font-medium">ПК, PS5, SimRacing</span>
+                </div>
+                <div className="flex items-center justify-between text-sm mt-2">
+                  <span className="text-muted-foreground">Подтверждение:</span>
+                  <span className="text-foreground font-medium">через WhatsApp</span>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-border">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Формат брони:</span>
-                <span className="text-foreground font-medium">ПК, PS5, SimRacing</span>
-              </div>
-              <div className="flex items-center justify-between text-sm mt-2">
-                <span className="text-muted-foreground">Подтверждение:</span>
-                <span className="text-foreground font-medium">через WhatsApp</span>
-              </div>
+            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              {siteContent.hero.salesPoints.map((point) => (
+                <div key={point.title} className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur-sm">
+                  <div className="text-sm font-semibold text-foreground">{point.title}</div>
+                  <div className="mt-2 text-sm leading-relaxed text-muted-foreground">{point.description}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

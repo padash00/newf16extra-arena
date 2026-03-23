@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
+import { siteContent } from "@/lib/site-content"
 import "./globals.css"
 
 const inter = Inter({
@@ -15,10 +16,10 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "F16 Arena — Компьютерный клуб, PS5 и SimRacing в Усть-Каменогорске",
+  title: `${siteContent.brand.name} — Компьютерный клуб, PS5 и SimRacing в ${siteContent.brand.city}`,
   description:
-    "Топовое железо, PS5, SimRacing и бронирование через WhatsApp 24/7. Актуальные тарифы и контакты F16 Arena в Усть-Каменогорске.",
-  keywords: ["компьютерный клуб", "F16", "киберспорт", "PS5", "SimRacing", "Усть-Каменогорск", "игровой клуб"],
+    `Топовое железо, PS5, SimRacing и бронирование через WhatsApp 24/7. Актуальные тарифы и контакты ${siteContent.brand.name} в ${siteContent.brand.city}.`,
+  keywords: ["компьютерный клуб", "F16", "киберспорт", "PS5", "SimRacing", siteContent.brand.city, "игровой клуб"],
 }
 
 export const viewport: Viewport = {

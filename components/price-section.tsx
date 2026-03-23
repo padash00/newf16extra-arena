@@ -4,30 +4,14 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Monitor, Crown, Star, Zap, TrendingUp, Percent, Filter } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
+import { siteContent } from "@/lib/site-content"
 import { cn } from "@/lib/utils"
-
-const sortOptions = [
-  { id: "default", label: "По умолчанию" },
-  { id: "price-asc", label: "Цена ↑" },
-  { id: "price-desc", label: "Цена ↓" },
-  { id: "popular", label: "Популярные" },
-]
-
-const timeFilters = [
-  { id: "all", label: "Все" },
-  { id: "hour", label: "Час" },
-  { id: "package", label: "Пакеты" },
-  { id: "day", label: "День" },
-  { id: "night", label: "Ночь" },
-]
-
-type PriceType = "hour" | "package" | "day" | "night"
 
 interface ZonePrice {
   label: string
   value: number
   unit: string
-  type: PriceType
+  type: "hour" | "package" | "day" | "night"
   discount?: number
 }
 
@@ -35,76 +19,26 @@ interface Zone {
   name: string
   pcs: string
   description: string
-  icon: typeof Monitor
+  icon: "monitor" | "star" | "crown" | "zap"
   color: string
   bgColor: string
   featured?: boolean
   prices: ZonePrice[]
 }
 
-const zones: Zone[] = [
-  {
-    name: "Standart",
-    pcs: "25 ПК",
-    description: "Надёжные ПК для стабильной игры",
-    icon: Monitor,
-    color: "text-muted-foreground",
-    bgColor: "bg-secondary/50",
-    prices: [
-      { label: "Час", value: 900, unit: "₸/час", type: "hour" },
-      { label: "2+1", value: 1800, unit: "₸ за 3ч", type: "package", discount: 10 },
-      { label: "3+2", value: 2700, unit: "₸ за 5ч", type: "package", discount: 15 },
-      { label: "День", value: 1500, unit: "₸/день", type: "day" },
-      { label: "Ночь", value: 3000, unit: "₸/ночь", type: "night" },
-    ],
-  },
-  {
-    name: "Standart Premium",
-    pcs: "30 ПК",
-    description: "Улучшенные мониторы, высокая частота кадров",
-    icon: Star,
-    color: "text-blue-400",
-    bgColor: "bg-blue-500/10",
-    featured: false,
-    prices: [
-      { label: "Час", value: 1200, unit: "₸/час", type: "hour" },
-      { label: "2+1", value: 2400, unit: "₸ за 3ч", type: "package", discount: 10 },
-      { label: "3+2", value: 3600, unit: "₸ за 5ч", type: "package", discount: 15 },
-      { label: "День", value: 2500, unit: "₸/день", type: "day" },
-      { label: "Ночь", value: 4500, unit: "₸/ночь", type: "night" },
-    ],
-  },
-  {
-    name: "VIP",
-    pcs: "6 ПК",
-    description: "Премиум-станции для тех, кто хочет максимум",
-    icon: Crown,
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-    featured: true,
-    prices: [
-      { label: "Час", value: 1400, unit: "₸/час", type: "hour" },
-      { label: "2+1", value: 2800, unit: "₸ за 3ч", type: "package", discount: 10 },
-      { label: "3+2", value: 4200, unit: "₸ за 5ч", type: "package", discount: 15 },
-      { label: "Ночь", value: 5000, unit: "₸/ночь", type: "night" },
-    ],
-  },
-  {
-    name: "PRO",
-    pcs: "5 ПК",
-    description: "Топовое железо для киберспортсменов",
-    icon: Zap,
-    color: "text-orange-400",
-    bgColor: "bg-orange-500/10",
-    featured: false,
-    prices: [
-      { label: "Час", value: 1800, unit: "₸/час", type: "hour" },
-      { label: "2+1", value: 3600, unit: "₸ за 3ч", type: "package", discount: 10 },
-      { label: "3+2", value: 5400, unit: "₸ за 5ч", type: "package", discount: 15 },
-      { label: "Ночь", value: 5800, unit: "₸/ночь", type: "night" },
-    ],
-  },
-]
+const iconMap = {
+  monitor: Monitor,
+  star: Star,
+  crown: Crown,
+  zap: Zap,
+}
+
+const sortOptions = [...siteContent.pricing.sortOptions]
+const timeFilters = [...siteContent.pricing.timeFilters]
+const zones: Zone[] = siteContent.pricing.zones.map((zone) => ({
+  ...zone,
+  prices: zone.prices.map((price) => ({ ...price })),
+}))
 
 export function PriceSection() {
   const [selectedZone, setSelectedZone] = useState<{ name: string; price: string } | null>(null)
@@ -226,7 +160,10 @@ export function PriceSection() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className={cn("p-2.5 rounded-xl", zone.bgColor, zone.color)}>
-                      <zone.icon className="w-5 h-5" />
+                      {(() => {
+                        const Icon = iconMap[zone.icon]
+                        return <Icon className="w-5 h-5" />
+                      })()}
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground">{zone.name}</h3>
@@ -351,7 +288,7 @@ export function PriceSection() {
         onClose={() => setSelectedZone(null)}
         category={selectedZone?.name}
         price={selectedZone?.price}
-        targetPhone="77080161720"
+        targetPhone={siteContent.contacts.phones[0].phoneRaw}
       />
     </section>
   )

@@ -17,22 +17,20 @@ import {
   Send,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { siteContent } from "@/lib/site-content"
 
-const socials = [
-  { name: "Instagram", href: "https://instagram.com/f16arena_", icon: Instagram, color: "text-pink-500" },
-  { name: "Telegram", href: "https://t.me/f16arena", icon: Send, color: "text-blue-400" },
-]
-
-const workingHours = [
-  { day: "Ежедневно", hours: "24/7" },
-]
+const socialIcons = {
+  Instagram,
+  Telegram: Send,
+  WhatsApp: MessageCircle,
+}
 
 export function ContactsSection() {
   const [copied, setCopied] = useState(false)
   const [showAllHours, setShowAllHours] = useState(false)
 
   const copyAddress = () => {
-    navigator.clipboard.writeText("г. Усть-Каменогорск, ул. 30-й Гвардейской Дивизии, 24/1")
+    navigator.clipboard.writeText(`г. ${siteContent.brand.city}, ${siteContent.brand.address}`)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -50,7 +48,7 @@ export function ContactsSection() {
             Локация
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Контакты <span className="text-primary">F16</span>
+            Контакты <span className="text-primary">{siteContent.brand.shortName}</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Актуальные контакты, адрес и клуб, который работает 24/7
@@ -67,9 +65,9 @@ export function ContactsSection() {
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground text-lg mb-1">Главная база</h3>
                   <p className="text-muted-foreground">
-                    г. Усть-Каменогорск,
+                    г. {siteContent.brand.city},
                     <br />
-                    ул. 30-й Гвардейской Дивизии, 24/1
+                    {siteContent.brand.address}
                   </p>
 
                   <div className="flex items-center gap-2 mt-4">
@@ -107,73 +105,58 @@ export function ContactsSection() {
               </h3>
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-secondary/20 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
-                      <Monitor className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-medium text-blue-500">PC CLUB</div>
-                      <a
-                        href="tel:+77080161720"
-                        className="font-mono font-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        +7 (708) 016-17-20
-                      </a>
-                    </div>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-blue-500 hover:text-blue-600 hover:bg-blue-500/10"
-                    onClick={() => window.open("https://wa.me/77080161720", "_blank")}
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                  </Button>
-                </div>
+                {siteContent.contacts.phones.map((phoneItem) => {
+                  const Icon = phoneItem.id === "pc" ? Monitor : Gamepad2
 
-                <div className="flex items-center justify-between p-3 bg-secondary/20 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                      <Gamepad2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-medium text-primary">PS5</div>
-                      <a
-                        href="tel:+77080160007"
-                        className="font-mono font-medium text-foreground hover:text-primary transition-colors"
+                  return (
+                    <div key={phoneItem.id} className="flex items-center justify-between p-3 bg-secondary/20 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-lg ${phoneItem.badgeClass} flex items-center justify-center ${phoneItem.accentClass}`}>
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className={`text-xs font-medium ${phoneItem.accentClass}`}>{phoneItem.label}</div>
+                          <a
+                            href={`tel:+${phoneItem.phoneRaw}`}
+                            className="font-mono font-medium text-foreground hover:text-primary transition-colors"
+                          >
+                            {phoneItem.phone}
+                          </a>
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className={`${phoneItem.accentClass} hover:bg-secondary`}
+                        onClick={() => window.open(`https://wa.me/${phoneItem.phoneRaw}`, "_blank")}
                       >
-                        +7 (708) 016-00-07
-                      </a>
+                        <MessageCircle className="w-4 h-4" />
+                      </Button>
                     </div>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-primary hover:text-primary/80 hover:bg-primary/10"
-                    onClick={() => window.open("https://wa.me/77080160007", "_blank")}
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                  </Button>
-                </div>
+                  )
+                })}
               </div>
             </div>
 
             <div className="bg-card border border-border rounded-2xl p-6">
               <h3 className="font-semibold text-foreground text-lg mb-4">Мы в соцсетях</h3>
               <div className="grid grid-cols-2 gap-3">
-                {socials.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center gap-2 py-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-all group"
-                  >
-                    <social.icon className={cn("w-4 h-4", social.color)} />
-                    <span className="text-sm font-medium text-foreground">{social.name}</span>
-                  </a>
-                ))}
+                {siteContent.contacts.socials.slice(0, 2).map((social) => {
+                  const Icon = socialIcons[social.name as keyof typeof socialIcons]
+
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center gap-2 py-3 rounded-xl bg-secondary/50 hover:bg-secondary transition-all group"
+                    >
+                      <Icon className={cn("w-4 h-4", social.colorClass)} />
+                      <span className="text-sm font-medium text-foreground">{social.name}</span>
+                    </a>
+                  )
+                })}
               </div>
             </div>
 
@@ -184,7 +167,7 @@ export function ContactsSection() {
               </h3>
 
               <div className="space-y-2">
-                {(showAllHours ? workingHours : workingHours.slice(0, 3)).map((item) => (
+                {(showAllHours ? siteContent.contacts.workingHours : siteContent.contacts.workingHours.slice(0, 3)).map((item) => (
                   <div key={item.day} className="flex justify-between text-sm py-1 border-b border-border/50 last:border-0">
                     <span className="text-muted-foreground">{item.day}</span>
                     <span className="font-medium text-foreground">{item.hours}</span>

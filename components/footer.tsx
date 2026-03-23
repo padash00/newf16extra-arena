@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { ArrowUp, Instagram, Send, MessageCircle, Mail, Clock, MapPin, Phone, CreditCard } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { siteContent } from "@/lib/site-content"
 
 const footerLinks = [
   { href: "#price", label: "Прайс" },
@@ -13,9 +14,9 @@ const footerLinks = [
 ]
 
 const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com/f16arena_", label: "Instagram", color: "text-pink-500" },
-  { icon: Send, href: "https://t.me/f16arena", label: "Telegram", color: "text-blue-400" },
-  { icon: MessageCircle, href: "https://wa.me/77080161720", label: "WhatsApp", color: "text-green-500" },
+  { icon: Instagram, href: siteContent.contacts.socials[0].href, label: "Instagram", color: siteContent.contacts.socials[0].colorClass },
+  { icon: Send, href: siteContent.contacts.socials[1].href, label: "Telegram", color: siteContent.contacts.socials[1].colorClass },
+  { icon: MessageCircle, href: siteContent.contacts.socials[2].href, label: "WhatsApp", color: siteContent.contacts.socials[2].colorClass },
 ]
 
 const paymentSystems = [{ name: "Kaspi" }, { name: "Visa" }, { name: "Mastercard" }, { name: "Наличные" }]
@@ -53,16 +54,16 @@ export function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">F16</span>
+                  <span className="text-primary-foreground font-bold text-lg">{siteContent.brand.shortName}</span>
                 </div>
                 <div>
-                  <span className="text-foreground font-semibold text-lg block">F16 Arena</span>
-                  <span className="text-xs text-muted-foreground">Cyber Lounge & Extra</span>
+                  <span className="text-foreground font-semibold text-lg block">{siteContent.brand.name}</span>
+                  <span className="text-xs text-muted-foreground">{siteContent.brand.subtitle}</span>
                 </div>
               </div>
 
               <p className="text-sm text-muted-foreground mb-4">
-                Компьютерный клуб с топовым железом, PS5 и SimRacing в Усть-Каменогорске. Работаем 24/7 и подтверждаем бронь через WhatsApp.
+                Компьютерный клуб с топовым железом, PS5 и SimRacing в {siteContent.brand.city}. Работаем 24/7 и подтверждаем бронь через WhatsApp.
               </p>
 
               <div className="flex items-center gap-2">
@@ -106,29 +107,29 @@ export function Footer() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm text-muted-foreground">ул. 30-й Гвардейской Дивизии, 24/1</span>
+                  <span className="text-sm text-muted-foreground">{siteContent.brand.address}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-primary shrink-0" />
-                  <a href="tel:+77080161720" className="text-sm text-muted-foreground hover:text-primary">
-                    +7 (708) 016-17-20 (PC)
+                  <a href={`tel:+${siteContent.contacts.phones[0].phoneRaw}`} className="text-sm text-muted-foreground hover:text-primary">
+                    {siteContent.contacts.phones[0].phone} ({siteContent.contacts.phones[0].shortLabel})
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-primary shrink-0" />
-                  <a href="tel:+77080160007" className="text-sm text-muted-foreground hover:text-primary">
-                    +7 (708) 016-00-07 (PS5)
+                  <a href={`tel:+${siteContent.contacts.phones[1].phoneRaw}`} className="text-sm text-muted-foreground hover:text-primary">
+                    {siteContent.contacts.phones[1].phone} ({siteContent.contacts.phones[1].shortLabel})
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-primary shrink-0" />
-                  <a href="mailto:info@f16arena.kz" className="text-sm text-muted-foreground hover:text-primary">
-                    info@f16arena.kz
+                  <a href={`mailto:${siteContent.brand.email}`} className="text-sm text-muted-foreground hover:text-primary">
+                    {siteContent.brand.email}
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-primary shrink-0" />
-                  <span className="text-sm text-muted-foreground">Ежедневно 24/7</span>
+                  <span className="text-sm text-muted-foreground">{siteContent.brand.workingLabel}</span>
                 </li>
               </ul>
             </div>

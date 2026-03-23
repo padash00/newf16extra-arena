@@ -4,80 +4,20 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Gamepad2, Car, Package, Sparkles, Star } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
+import { siteContent } from "@/lib/site-content"
 import { cn } from "@/lib/utils"
 
-const extraItems = [
-  {
-    category: "PS5",
-    icon: Gamepad2,
-    color: "text-blue-400",
-    bgColor: "bg-blue-500/10",
-    description: "Комфортные зоны с большими экранами, идеальны для компаний",
-    popular: true,
-    items: [
-      { name: 'PS5 65"', price: 1200, priceStr: "1 200₸", note: "Почасовой тариф", billing: "hourly" },
-      { name: 'PS5 75"', price: 1500, priceStr: "1 500₸", note: "Почасовой тариф", billing: "hourly" },
-    ],
-  },
-  {
-    category: "SimRacing",
-    icon: Car,
-    color: "text-orange-400",
-    bgColor: "bg-orange-500/10",
-    description: "Реалистичные кокпиты для полного погружения в гонку",
-    popular: false,
-    items: [
-      { name: "Час", price: 2500, priceStr: "2 500₸", note: "Почасовой тариф", billing: "hourly" },
-      { name: "2+1", price: 4800, priceStr: "4 800₸", note: "Фиксированный пакет на 3 часа", billing: "fixed" },
-      { name: "3+2", price: 7200, priceStr: "7 200₸", note: "Фиксированный пакет на 5 часов", billing: "fixed" },
-    ],
-  },
-]
+const extraIcons = {
+  gamepad: Gamepad2,
+  car: Car,
+}
 
-const packages = [
-  {
-    name: "PS5 + PS5",
-    price: "2 200₸",
-    oldPrice: "2 400₸",
-    duration: "1 час",
-    subtitle: "Две консоли сразу",
-    discount: true,
-    popular: false,
-  },
-  {
-    name: "PS5 + SimRacing",
-    price: "3 300₸",
-    oldPrice: "3 700₸",
-    duration: "1 час",
-    subtitle: "Для компании",
-    discount: true,
-    popular: true,
-  },
-  {
-    name: "2 PS5 + SimRacing",
-    price: "5 000₸",
-    oldPrice: "6 200₸",
-    duration: "1 час",
-    subtitle: "Максимум развлечений",
-    discount: true,
-    popular: false,
-  },
-  {
-    name: "Всё включено",
-    price: "8 500₸",
-    oldPrice: "10 000₸",
-    duration: "2 часа",
-    subtitle: "PS5 ×2 + SimRacing",
-    discount: true,
-    popular: false,
-  },
-]
-
-const filters = [
-  { id: "all", label: "Все" },
-  { id: "ps5", label: "PS5" },
-  { id: "simracing", label: "SimRacing" },
-]
+const filters = [...siteContent.extra.filters]
+const extraItems = siteContent.extra.items.map((item) => ({
+  ...item,
+  items: item.items.map((subItem) => ({ ...subItem })),
+}))
+const packages = [...siteContent.extra.packages]
 
 export function ExtraSection() {
   const [selectedExtra, setSelectedExtra] = useState<{ name: string; price: string } | null>(null)
@@ -148,7 +88,10 @@ export function ExtraSection() {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className={cn("p-3 rounded-xl", item.bgColor, item.color)}>
-                    <item.icon className="w-6 h-6" />
+                    {(() => {
+                      const Icon = extraIcons[item.icon]
+                      return <Icon className="w-6 h-6" />
+                    })()}
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-foreground text-xl">{item.category}</h3>
@@ -324,7 +267,7 @@ export function ExtraSection() {
         onClose={() => setSelectedExtra(null)}
         category={selectedExtra?.name}
         price={selectedExtra?.price}
-        targetPhone="77080160007"
+        targetPhone={siteContent.contacts.phones[1].phoneRaw}
       />
     </section>
   )
