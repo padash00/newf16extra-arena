@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 const inter = Inter({
@@ -14,11 +15,10 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "F16 Arena — Компьютерный клуб и VR в Усть-Каменогорске",
+  title: "F16 Arena — Компьютерный клуб, PS5 и SimRacing в Усть-Каменогорске",
   description:
-    "Топовое железо, RTX 4070/5070, мониторы 540Hz. PS5, VR и SimRacing. Бронируйте онлайн 24/7!",
-  generator: "v0.app",
-  keywords: ["компьютерный клуб", "F16", "киберспорт", "VR", "PS5", "SimRacing", "Усть-Каменогорск", "игровой клуб"],
+    "Топовое железо, PS5, SimRacing и бронирование через WhatsApp. Актуальные тарифы и контакты F16 Arena в Усть-Каменогорске.",
+  keywords: ["компьютерный клуб", "F16", "киберспорт", "PS5", "SimRacing", "Усть-Каменогорск", "игровой клуб"],
 }
 
 export const viewport: Viewport = {
@@ -34,10 +34,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    // ДОБАВИЛ: suppressHydrationWarning
     <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

@@ -1,49 +1,180 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { ArrowUp, Instagram, Send, MessageCircle, Mail, Clock, MapPin, Phone, CreditCard } from "lucide-react"
+import { cn } from "@/lib/utils"
+
 const footerLinks = [
   { href: "#price", label: "Прайс" },
   { href: "#devices", label: "Девайсы" },
   { href: "#extra", label: "F16 Extra" },
   { href: "#contacts", label: "Контакты" },
+  { href: "#gallery", label: "Галерея" },
 ]
 
-export function Footer() {
-  return (
-    <footer className="py-12 border-t border-border/50 bg-background/50 backdrop-blur-sm relative overflow-hidden">
-      {/* Фоновое свечение внизу */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-primary/5 rounded-full blur-3xl -z-10" />
+const socialLinks = [
+  { icon: Instagram, href: "https://instagram.com/f16arena_", label: "Instagram", color: "text-pink-500" },
+  { icon: Send, href: "https://t.me/f16arena", label: "Telegram", color: "text-blue-400" },
+  { icon: MessageCircle, href: "https://wa.me/77080161720", label: "WhatsApp", color: "text-green-500" },
+]
 
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2 group cursor-default">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-transform group-hover:rotate-12">
-              <span className="text-primary-foreground font-bold text-lg">F16</span>
+const paymentSystems = [{ name: "Kaspi" }, { name: "Visa" }, { name: "Mastercard" }, { name: "Наличные" }]
+
+export function Footer() {
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 500)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href)
+    if (element) {
+      const headerOffset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" })
+    }
+  }
+
+  return (
+    <>
+      <footer className="bg-card border-t border-border">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">F16</span>
+                </div>
+                <div>
+                  <span className="text-foreground font-semibold text-lg block">F16 Arena</span>
+                  <span className="text-xs text-muted-foreground">Cyber Lounge & Extra</span>
+                </div>
+              </div>
+
+              <p className="text-sm text-muted-foreground mb-4">
+                Компьютерный клуб с топовым железом, PS5 и SimRacing в Усть-Каменогорске. Бронирование подтверждаем через WhatsApp.
+              </p>
+
+              <div className="flex items-center gap-2">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-8 h-8 rounded-full bg-secondary/50 flex items-center justify-center hover:bg-secondary transition-colors"
+                    aria-label={social.label}
+                  >
+                    <social.icon className={cn("w-4 h-4", social.color)} />
+                  </a>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-foreground font-semibold leading-none">F16 Arena</span>
-              <span className="text-xs text-muted-foreground">Cyber Lounge</span>
+
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Навигация</h3>
+              <ul className="space-y-2">
+                {footerLinks.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        scrollToSection(link.href)
+                      }}
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Контакты</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <span className="text-sm text-muted-foreground">ул. 30-й Гвардейской Дивизии, 24/1</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-primary shrink-0" />
+                  <a href="tel:+77080161720" className="text-sm text-muted-foreground hover:text-primary">
+                    +7 (708) 016-17-20 (PC)
+                  </a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-primary shrink-0" />
+                  <a href="tel:+77080160007" className="text-sm text-muted-foreground hover:text-primary">
+                    +7 (708) 016-00-07 (PS5)
+                  </a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-primary shrink-0" />
+                  <a href="mailto:info@f16arena.kz" className="text-sm text-muted-foreground hover:text-primary">
+                    info@f16arena.kz
+                  </a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-primary shrink-0" />
+                  <span className="text-sm text-muted-foreground">По расписанию на странице контактов</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">Способы оплаты</h3>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {paymentSystems.map((payment) => (
+                  <div
+                    key={payment.name}
+                    className="px-3 py-1.5 bg-secondary/50 rounded-lg text-sm text-foreground flex items-center gap-1"
+                  >
+                    <CreditCard className="w-3 h-3" />
+                    {payment.name}
+                  </div>
+                ))}
+              </div>
+
+              <h3 className="font-semibold text-foreground mb-2">Скачать приложение</h3>
+              <p className="text-xs text-muted-foreground mb-3">Скоро в App Store и Google Play</p>
+              <div className="flex gap-2 opacity-50">
+                <div className="bg-secondary/30 px-3 py-2 rounded-lg text-xs">App Store</div>
+                <div className="bg-secondary/30 px-3 py-2 rounded-lg text-xs">Google Play</div>
+              </div>
             </div>
           </div>
 
-          {/* Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-8">
-            {footerLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium hover:underline underline-offset-4 decoration-primary/50"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* Copyright */}
-          <div className="text-center md:text-right">
-            <p className="text-sm text-muted-foreground">© 2025 F16 Arena</p>
-            <p className="text-xs text-muted-foreground/50 mt-1">Усть-Каменогорск</p>
+          <div className="pt-8 mt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} F16 Arena. Все права защищены.</p>
+            <p className="text-xs text-muted-foreground text-center md:text-right">
+              Для правил бронирования и уточнений удобнее всего написать в WhatsApp или Telegram.
+            </p>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+
+      <button
+        onClick={scrollToTop}
+        className={cn(
+          "fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg transition-all duration-300 hover:scale-110",
+          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none",
+        )}
+        aria-label="Наверх"
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
+    </>
   )
 }

@@ -2,119 +2,261 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Gamepad2, Headset, Car, Package, Sparkles } from "lucide-react"
+import { Gamepad2, Car, Package, Sparkles, Star } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
-import { SpotlightCard } from "@/components/ui/spotlight-card"
+import { cn } from "@/lib/utils"
 
 const extraItems = [
   {
     category: "PS5",
     icon: Gamepad2,
+    color: "text-blue-400",
+    bgColor: "bg-blue-500/10",
     description: "Комфортные зоны с большими экранами, идеальны для компаний",
+    popular: true,
     items: [
-      { name: 'PS5 65"', price: "1 200₸", note: "2+1 — 2 400₸" },
-      { name: 'PS5 75"', price: "1 500₸", note: "2+1 — 3 000₸" },
+      { name: 'PS5 65"', price: 1200, priceStr: "1 200₸", note: "Почасовой тариф", billing: "hourly" },
+      { name: 'PS5 75"', price: 1500, priceStr: "1 500₸", note: "Почасовой тариф", billing: "hourly" },
     ],
   },
   {
     category: "SimRacing",
     icon: Car,
+    color: "text-orange-400",
+    bgColor: "bg-orange-500/10",
     description: "Реалистичные кокпиты для полного погружения в гонку",
+    popular: false,
     items: [
-      { name: "Час", price: "2 500₸" },
-      { name: "2+1", price: "4 800₸" },
-      { name: "3+2", price: "7 200₸" },
+      { name: "Час", price: 2500, priceStr: "2 500₸", note: "Почасовой тариф", billing: "hourly" },
+      { name: "2+1", price: 4800, priceStr: "4 800₸", note: "Фиксированный пакет на 3 часа", billing: "fixed" },
+      { name: "3+2", price: 7200, priceStr: "7 200₸", note: "Фиксированный пакет на 5 часов", billing: "fixed" },
     ],
-  },
-  {
-    category: "VR",
-    icon: Headset,
-    description: "VR Meta Quest 2/3 — игры, аттракционы и соревнования в виртуальном мире",
-    items: [{ name: "1 шлем", price: "3 000₸" }],
   },
 ]
 
 const packages = [
-  { name: "5 VR шлемов", price: "13 000₸", duration: "1 час", subtitle: "Лучший выбор для большой компании" },
-  { name: "5 VR шлемов", price: "25 000₸", duration: "2 часа", subtitle: null },
-  { name: "VR + 4 PS5", price: "30 000₸", duration: "1 час", subtitle: "Максимум развлечений для всех" },
   {
-    name: "VR + PS5 + SimRacing",
-    price: "35 000₸",
-    duration: "Комбо",
-    subtitle: "Комбо-набор для незабываемого вечера",
+    name: "PS5 + PS5",
+    price: "2 200₸",
+    oldPrice: "2 400₸",
+    duration: "1 час",
+    subtitle: "Две консоли сразу",
+    discount: true,
+    popular: false,
+  },
+  {
+    name: "PS5 + SimRacing",
+    price: "3 300₸",
+    oldPrice: "3 700₸",
+    duration: "1 час",
+    subtitle: "Для компании",
+    discount: true,
+    popular: true,
+  },
+  {
+    name: "2 PS5 + SimRacing",
+    price: "5 000₸",
+    oldPrice: "6 200₸",
+    duration: "1 час",
+    subtitle: "Максимум развлечений",
+    discount: true,
+    popular: false,
+  },
+  {
+    name: "Всё включено",
+    price: "8 500₸",
+    oldPrice: "10 000₸",
+    duration: "2 часа",
+    subtitle: "PS5 ×2 + SimRacing",
+    discount: true,
+    popular: false,
   },
 ]
 
+const filters = [
+  { id: "all", label: "Все" },
+  { id: "ps5", label: "PS5" },
+  { id: "simracing", label: "SimRacing" },
+]
+
 export function ExtraSection() {
-  const [selectedExtra, setSelectedExtra] = useState<{name: string, price: string} | null>(null)
+  const [selectedExtra, setSelectedExtra] = useState<{ name: string; price: string } | null>(null)
+  const [activeFilter, setActiveFilter] = useState("all")
+  const [hours, setHours] = useState<Record<string, number>>(Object.fromEntries(extraItems.map((item) => [item.category, 1])))
+  const [selectedItemByCategory, setSelectedItemByCategory] = useState<Record<string, string>>(
+    Object.fromEntries(extraItems.map((item) => [item.category, item.items[0].name])),
+  )
+
+  const filteredItems = extraItems.filter((item) => {
+    if (activeFilter === "all") return true
+    if (activeFilter === "ps5") return item.category === "PS5"
+    if (activeFilter === "simracing") return item.category === "SimRacing"
+    return true
+  })
+
+  const getSelectedItem = (category: string) => {
+    const currentCategory = extraItems.find((item) => item.category === category)
+    if (!currentCategory) return null
+    return currentCategory.items.find((item) => item.name === selectedItemByCategory[category]) ?? currentCategory.items[0]
+  }
+
+  const calculatePrice = (category: string) => {
+    const selectedItem = getSelectedItem(category)
+    if (!selectedItem) return 0
+    return selectedItem.billing === "hourly" ? selectedItem.price * (hours[category] || 1) : selectedItem.price
+  }
 
   return (
-    <section id="extra" className="py-20 sm:py-32 relative overflow-hidden bg-background">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent shadow-[0_0_10px_var(--primary)]" />
-      
-      <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section id="extra" className="py-20 sm:py-32 bg-secondary/30">
+      <div className="container mx-auto px-4">
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-medium mb-6 animate-in fade-in zoom-in duration-500">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full text-sm font-medium mb-6">
             <Sparkles className="w-4 h-4" />
             Развлечения нового уровня
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-balance">
-            F16 Extra — <span className="text-primary">VR, PS5 и SimRacing</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            F16 Extra — <span className="text-primary">PS5 и SimRacing</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Выберите формат отдыха: виртуальная реальность, консоли или полный драйв за рулём
+            Выберите формат отдыха: консоли или полный драйв за рулём
           </p>
+
+          <div className="flex items-center justify-center gap-2 mt-6">
+            {filters.map((filter) => (
+              <Button
+                key={filter.id}
+                variant={activeFilter === filter.id ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter(filter.id)}
+                className="rounded-full"
+              >
+                {filter.label}
+              </Button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {extraItems.map((item) => (
-            <SpotlightCard
-              key={item.category}
-              className="p-6 flex flex-col hover:border-primary/40 transition-all duration-300"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <item.icon className="w-6 h-6" />
-                </div>
-                <h3 className="font-bold text-foreground text-xl">{item.category}</h3>
-              </div>
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {filteredItems.map((item) => {
+            const selectedItem = getSelectedItem(item.category)
+            const totalPrice = calculatePrice(item.category)
 
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed flex-grow">{item.description}</p>
-
-              <div className="space-y-4 mb-6">
-                {item.items.map((subItem, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-secondary/30 border border-transparent hover:border-primary/20 rounded-xl transition-all">
-                    <div>
-                      <span className="text-foreground font-medium">{subItem.name}</span>
-                      {subItem.note && <p className="text-xs text-muted-foreground mt-1">{subItem.note}</p>}
-                    </div>
-                    <span className="text-primary font-bold text-lg">{subItem.price}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Button 
-                onClick={() => setSelectedExtra({ name: item.category, price: "По прайсу" })}
-                className="w-full bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground mt-auto transition-all"
+            return (
+              <div
+                key={item.category}
+                className="bg-card border border-border rounded-2xl p-6 hover:shadow-lg transition-all"
               >
-                Забронировать
-              </Button>
-            </SpotlightCard>
-          ))}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={cn("p-3 rounded-xl", item.bgColor, item.color)}>
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground text-xl">{item.category}</h3>
+                  </div>
+                  {item.popular && (
+                    <div className="flex items-center gap-1 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                      <Star className="w-3 h-3" />
+                      Популярное
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-sm text-muted-foreground mb-6">{item.description}</p>
+
+                <div className="space-y-3 mb-6">
+                  {item.items.map((subItem) => {
+                    const isSelected = selectedItemByCategory[item.category] === subItem.name
+
+                    return (
+                      <button
+                        key={subItem.name}
+                        type="button"
+                        onClick={() =>
+                          setSelectedItemByCategory((prev) => ({
+                            ...prev,
+                            [item.category]: subItem.name,
+                          }))
+                        }
+                        className={cn(
+                          "w-full flex items-center justify-between p-3 rounded-xl transition-all text-left",
+                          isSelected
+                            ? "bg-primary/10 border border-primary"
+                            : "bg-secondary/20 hover:bg-secondary/30 border border-transparent",
+                        )}
+                      >
+                        <div>
+                          <span className="text-foreground font-medium">{subItem.name}</span>
+                          <p className="text-xs text-muted-foreground mt-1">{subItem.note}</p>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-primary font-bold text-lg">{subItem.price.toLocaleString()}₸</div>
+                          <div className="text-xs text-muted-foreground">{subItem.priceStr}</div>
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {selectedItem?.billing === "hourly" && (
+                  <div className="mb-6">
+                    <label className="text-sm text-muted-foreground mb-2 block">
+                      Количество часов: <span className="text-primary font-bold">{hours[item.category] || 1}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="1"
+                      max="6"
+                      value={hours[item.category] || 1}
+                      onChange={(e) =>
+                        setHours((prev) => ({
+                          ...prev,
+                          [item.category]: parseInt(e.target.value, 10),
+                        }))
+                      }
+                      className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>1 час</span>
+                      <span>3 часа</span>
+                      <span>6 часов</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mb-4 rounded-xl bg-secondary/20 p-3">
+                  <div className="text-sm text-muted-foreground">К оплате</div>
+                  <div className="text-2xl font-bold text-primary font-mono">{totalPrice.toLocaleString()}₸</div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {selectedItem?.billing === "hourly"
+                      ? "Сумма зависит от выбранного количества часов."
+                      : "Фиксированная стоимость пакета."}
+                  </div>
+                </div>
+
+                <Button
+                  onClick={() =>
+                    setSelectedExtra({
+                      name: `${item.category} · ${selectedItem?.name || "тариф"}`,
+                      price: `${totalPrice.toLocaleString()}₸`,
+                    })
+                  }
+                  className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                >
+                  Забронировать
+                </Button>
+              </div>
+            )
+          })}
         </div>
 
         <div className="relative">
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/5 to-primary/20 rounded-2xl blur opacity-75" />
-          <div className="bg-card border border-primary/20 rounded-2xl p-6 sm:p-8 relative backdrop-blur-sm">
+          <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-3 rounded-xl bg-primary text-primary-foreground shadow-[0_0_15px_rgba(205,233,1,0.4)]">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary">
                 <Package className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-foreground text-xl">Пакеты аренды</h3>
+                <h3 className="font-semibold text-foreground text-xl">Пакеты аренды</h3>
               </div>
             </div>
             <p className="text-sm text-muted-foreground mb-8">
@@ -126,21 +268,49 @@ export function ExtraSection() {
                 <div
                   key={index}
                   onClick={() => setSelectedExtra({ name: `ПАКЕТ: ${pkg.name}`, price: pkg.price })}
-                  className="bg-secondary/30 rounded-xl p-4 text-center hover:bg-primary/10 transition-all group cursor-pointer border border-transparent hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
+                  className={cn(
+                    "rounded-xl p-4 text-center transition-all cursor-pointer relative",
+                    pkg.popular
+                      ? "bg-primary/10 border-2 border-primary"
+                      : "bg-secondary/30 border border-border hover:border-primary/30",
+                  )}
                 >
-                  <div className="text-xs text-muted-foreground mb-2 group-hover:text-primary transition-colors">{pkg.duration}</div>
+                  {pkg.discount && (
+                    <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                      -
+                      {Math.round(
+                        (1 -
+                          parseInt(pkg.price.replace(/\D/g, ""), 10) /
+                            parseInt(pkg.oldPrice?.replace(/\D/g, "") || "0", 10)) *
+                          100,
+                      )}
+                      %
+                    </div>
+                  )}
+                  {pkg.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
+                      Лучший выбор
+                    </div>
+                  )}
+
+                  <div className="text-xs text-muted-foreground mb-2">{pkg.duration}</div>
                   <div className="font-semibold text-foreground mb-2">{pkg.name}</div>
-                  <div className="text-2xl font-bold text-primary mb-2 font-mono">{pkg.price}</div>
+
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <div className="text-2xl font-bold text-primary font-mono">{pkg.price}</div>
+                    {pkg.oldPrice && <div className="text-sm text-muted-foreground line-through">{pkg.oldPrice}</div>}
+                  </div>
+
                   {pkg.subtitle && <div className="text-xs text-muted-foreground leading-relaxed">{pkg.subtitle}</div>}
                 </div>
               ))}
             </div>
 
             <div className="mt-8 text-center">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 onClick={() => setSelectedExtra({ name: "Пакетное предложение", price: "Уточнить" })}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 shadow-[0_0_20px_rgba(205,233,1,0.3)] hover:shadow-[0_0_30px_rgba(205,233,1,0.5)] transition-all hover:scale-105"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8"
               >
                 Забронировать пакет
               </Button>
@@ -149,12 +319,12 @@ export function ExtraSection() {
         </div>
       </div>
 
-      <BookingModal 
-        isOpen={!!selectedExtra} 
-        onClose={() => setSelectedExtra(null)} 
+      <BookingModal
+        isOpen={!!selectedExtra}
+        onClose={() => setSelectedExtra(null)}
         category={selectedExtra?.name}
         price={selectedExtra?.price}
-        targetPhone="77080160007" // НОМЕР EXTRA !!!
+        targetPhone="77080160007"
       />
     </section>
   )

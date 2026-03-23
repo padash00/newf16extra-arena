@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.ibb.co', // Исправил i.ibb.co.com -> i.ibb.co
+        hostname: 'i.ibb.co',
+        port: '',
+        pathname: '/**',
       },
     ],
   },
 }
 
-export default nextConfig
+module.exports = nextConfig

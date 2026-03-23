@@ -4,39 +4,62 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.1 0.01 270);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.15 0.01 270);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.12 0.01 270);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.85 0.2 105);
-  --primary-foreground: oklch(0.1 0.01 270);
-  --secondary: oklch(0.2 0.01 270);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.25 0.01 270);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.85 0.2 105);
-  --accent-foreground: oklch(0.1 0.01 270);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.25 0.01 270);
-  --input: oklch(0.2 0.01 270);
-  --ring: oklch(0.85 0.2 105);
-  --chart-1: oklch(0.85 0.2 105);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
+
+  --card: #ffffff;
+  --card-foreground: #1d1d1f;
+
+  --popover: #ffffff;
+  --popover-foreground: #1d1d1f;
+
+  --primary: #1d1d1f;
+  --primary-foreground: #ffffff;
+
+  --secondary: #e8e8ed;
+  --secondary-foreground: #1d1d1f;
+
+  --muted: #e8e8ed;
+  --muted-foreground: #86868b;
+
+  --accent: #e8e8ed;
+  --accent-foreground: #1d1d1f;
+
+  --destructive: #ff3b30;
+  --destructive-foreground: #ffffff;
+
+  --border: #d2d2d7;
+  --input: #d2d2d7;
+  --ring: #0071e3;
+
   --radius: 0.75rem;
-  --sidebar: oklch(0.12 0.01 270);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.85 0.2 105);
-  --sidebar-primary-foreground: oklch(0.1 0.01 270);
-  --sidebar-accent: oklch(0.2 0.01 270);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.25 0.01 270);
-  --sidebar-ring: oklch(0.85 0.2 105);
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #f5f5f7;
+
+  --card: #1d1d1f;
+  --card-foreground: #f5f5f7;
+
+  --popover: #1d1d1f;
+  --popover-foreground: #f5f5f7;
+
+  --primary: #f5f5f7;
+  --primary-foreground: #000000;
+
+  --secondary: #2d2d2f;
+  --secondary-foreground: #f5f5f7;
+
+  --muted: #2d2d2f;
+  --muted-foreground: #98989d;
+
+  --accent: #2d2d2f;
+  --accent-foreground: #f5f5f7;
+
+  --border: #2d2d2f;
+  --input: #2d2d2f;
+  --ring: #0071e3;
 }
 
 @theme inline {
@@ -61,11 +84,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -77,46 +95,27 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom Gaming Scrollbar */
+  /* Тонкий скроллбар */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--background);
+    background: var(--secondary);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--secondary);
-    border-radius: 4px;
+    background: var(--muted-foreground);
+    border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
   }
 }
-.bg-grid-pattern {
-  background-size: 50px 50px;
-  background-image: 
-    linear-gradient(to right, rgba(205, 233, 1, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(205, 233, 1, 0.05) 1px, transparent 1px);
-  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-}
 
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
-}
-
-.animate-glitch:hover {
-  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-  color: var(--primary);
-  text-shadow: 2px 2px var(--destructive), -2px -2px var(--blue-500);
-}
+/* Удалены bg-grid-pattern и animate-glitch */
