@@ -84,7 +84,7 @@ export function HeroSection() {
           <div className="space-y-6 animate-in slide-in-from-left-10 duration-700">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full text-sm">
               <span className="inline-flex h-2 w-2 rounded-full bg-primary" />
-              <span className="text-foreground">Бронь через WhatsApp, актуальные часы работы указаны ниже</span>
+              <span className="text-foreground">Работаем 24/7, бронь подтверждаем через WhatsApp</span>
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground tracking-tight">
@@ -128,7 +128,7 @@ export function HeroSection() {
             <div className="flex flex-wrap gap-6 pt-8">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-primary" />
-                <span className="text-sm text-foreground">График по расписанию</span>
+                <span className="text-sm text-foreground">24/7 без выходных</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="w-5 h-5 text-primary" />

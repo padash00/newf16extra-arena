@@ -24,10 +24,7 @@ const socials = [
 ]
 
 const workingHours = [
-  { day: "Пн-Чт", hours: "10:00 — 02:00" },
-  { day: "Пт", hours: "12:00 — 06:00" },
-  { day: "Сб", hours: "12:00 — 06:00" },
-  { day: "Вс", hours: "12:00 — 00:00" },
+  { day: "Ежедневно", hours: "24/7" },
 ]
 
 export function ContactsSection() {
@@ -56,7 +53,7 @@ export function ContactsSection() {
             Контакты <span className="text-primary">F16</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Актуальные контакты, адрес и график работы клуба
+            Актуальные контакты, адрес и клуб, который работает 24/7
           </p>
         </div>
 
@@ -78,7 +75,7 @@ export function ContactsSection() {
                   <div className="flex items-center gap-2 mt-4">
                     <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
                       <span className="inline-flex h-2 w-2 rounded-full bg-primary"></span>
-                      Работаем по расписанию ниже
+                      Открыты 24/7
                     </div>
 
                     <Button
@@ -202,7 +199,7 @@ export function ContactsSection() {
                 className="w-full mt-2 text-muted-foreground"
               >
                 <ChevronDown className={cn("w-4 h-4 mr-1 transition-transform", showAllHours && "rotate-180")} />
-                {showAllHours ? "Скрыть" : "Все часы работы"}
+                {showAllHours ? "Скрыть" : "Показать график"}
               </Button>
             </div>
           </div>

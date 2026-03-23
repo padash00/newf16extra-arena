@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "F16 Arena — Компьютерный клуб, PS5 и SimRacing в Усть-Каменогорске",
   description:
-    "Топовое железо, PS5, SimRacing и бронирование через WhatsApp. Актуальные тарифы и контакты F16 Arena в Усть-Каменогорске.",
+    "Топовое железо, PS5, SimRacing и бронирование через WhatsApp 24/7. Актуальные тарифы и контакты F16 Arena в Усть-Каменогорске.",
   keywords: ["компьютерный клуб", "F16", "киберспорт", "PS5", "SimRacing", "Усть-Каменогорск", "игровой клуб"],
 }
 

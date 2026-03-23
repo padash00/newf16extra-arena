@@ -62,7 +62,7 @@ export function Footer() {
               </div>
 
               <p className="text-sm text-muted-foreground mb-4">
-                Компьютерный клуб с топовым железом, PS5 и SimRacing в Усть-Каменогорске. Бронирование подтверждаем через WhatsApp.
+                Компьютерный клуб с топовым железом, PS5 и SimRacing в Усть-Каменогорске. Работаем 24/7 и подтверждаем бронь через WhatsApp.
               </p>
 
               <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ export function Footer() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-primary shrink-0" />
-                  <span className="text-sm text-muted-foreground">По расписанию на странице контактов</span>
+                  <span className="text-sm text-muted-foreground">Ежедневно 24/7</span>
                 </li>
               </ul>
             </div>
