@@ -46,6 +46,10 @@ export function ExtraSection() {
     return selectedItem.billing === "hourly" ? selectedItem.price * (hours[category] || 1) : selectedItem.price
   }
 
+  const formatPrice = (price: number) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "₸"
+  }
+
   return (
     <section id="extra" className="py-20 sm:py-32 bg-secondary/30">
       <div className="container mx-auto px-4">
@@ -132,7 +136,7 @@ export function ExtraSection() {
                           <p className="text-xs text-muted-foreground mt-1">{subItem.note}</p>
                         </div>
                         <div className="text-right">
-                          <div className="text-primary font-bold text-lg">{subItem.price.toLocaleString()}₸</div>
+                          <div className="text-primary font-bold text-lg">{formatPrice(subItem.price)}</div>
                           <div className="text-xs text-muted-foreground">{subItem.priceStr}</div>
                         </div>
                       </button>
@@ -168,7 +172,7 @@ export function ExtraSection() {
 
                 <div className="mb-4 rounded-xl bg-secondary/20 p-3">
                   <div className="text-sm text-muted-foreground">К оплате</div>
-                  <div className="text-2xl font-bold text-primary font-mono">{totalPrice.toLocaleString()}₸</div>
+                  <div className="text-2xl font-bold text-primary font-mono">{formatPrice(totalPrice)}</div>
                   <div className="text-xs text-muted-foreground mt-1">
                     {selectedItem?.billing === "hourly"
                       ? "Сумма зависит от выбранного количества часов."
@@ -180,7 +184,7 @@ export function ExtraSection() {
                   onClick={() =>
                     setSelectedExtra({
                       name: `${item.category} · ${selectedItem?.name || "тариф"}`,
-                      price: `${totalPrice.toLocaleString()}₸`,
+                      price: formatPrice(totalPrice),
                     })
                   }
                   className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80"

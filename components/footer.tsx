@@ -23,6 +23,7 @@ const paymentSystems = [{ name: "Kaspi" }, { name: "Visa" }, { name: "Mastercard
 
 export function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const currentYear = new Date().getUTCFullYear()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,7 +159,9 @@ export function Footer() {
           </div>
 
           <div className="pt-8 mt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} F16 Arena. Все права защищены.</p>
+            <p className="text-sm text-muted-foreground">
+              © <span suppressHydrationWarning>{currentYear}</span> F16 Arena. Все права защищены.
+            </p>
             <p className="text-xs text-muted-foreground text-center md:text-right">
               Для правил бронирования и уточнений удобнее всего написать в WhatsApp или Telegram.
             </p>
