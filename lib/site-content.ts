@@ -50,7 +50,7 @@ export const siteContent = {
     description: "Топовое железо, PS5 и SimRacing. Пространство для игр, отдыха и встреч в Усть-Каменогорске.",
     typedWords: ["Компьютеры", "PS5", "SimRacing", "вечеринки", "турниры"],
     stats: [
-      { label: "ПК всего", value: 67, description: "игровых станций", icon: "monitor" },
+      { label: "ПК всего", value: 71, description: "игровых станций", icon: "monitor" },
       { label: "PS5", value: 4, description: "консоли", icon: "gamepad" },
       { label: "SimRacing", value: 2, description: "установки", icon: "car" },
       { label: "Мониторы", value: 600, description: "Hz макс", icon: "zap", suffix: "Hz" },
@@ -149,7 +149,7 @@ export const siteContent = {
       },
       {
         name: "Elite",
-        pcs: "1 ПК",
+        pcs: "5 ПК",
         description: "Флагманская зона с топовой сборкой и монитором 600Hz",
         icon: "crown",
         color: "text-cyan-400",

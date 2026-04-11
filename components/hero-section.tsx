@@ -69,12 +69,12 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         <Image
-          src="/dark-gaming-room-with-neon-lights-and-pc-setups.jpg"
+          src="/hero-simracing-elite.png"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-20"
+          className="object-cover object-[center_38%] opacity-25"
         />
       </div>
 
