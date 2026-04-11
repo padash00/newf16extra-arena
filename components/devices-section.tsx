@@ -100,6 +100,32 @@ const devices = [
     ],
     performance: "Топ для киберспорта, 360+ FPS в CS2, 250+ в PUBG",
   },
+  {
+    zone: "Elite",
+    featured: true,
+    rating: 5.0,
+    specs: [
+      { icon: Cpu, label: "Ryzen 7 9800X3D", brand: "amd" },
+      { icon: MonitorIcon, label: "RTX 5070 Ti", brand: "nvidia" },
+      { icon: Cpu, label: "32GB", brand: "generic" },
+      { icon: MonitorIcon, label: "600Hz", brand: "benq" },
+    ],
+    fullSpecs: [
+      { icon: Cpu, label: "Процессор: AMD Ryzen 7 9800X3D" },
+      { icon: MonitorIcon, label: "Видеокарта: NVIDIA RTX 5070 Ti" },
+      { icon: HardDrive, label: "ОЗУ: 32GB" },
+      { icon: MonitorIcon, label: "Монитор: Zowie BenQ 600Hz" },
+      { icon: Mouse, label: "Мышь: Logitech Superstrike" },
+      { icon: Keyboard, label: "Клавиатура: Logitech TKL Rapid" },
+      { icon: Headphones, label: "Наушники: Logitech G Pro X2 P" },
+    ],
+    gear: [
+      { icon: Mouse, label: "Logitech Superstrike", brand: "logitech" },
+      { icon: Keyboard, label: "Logitech TKL Rapid", brand: "logitech" },
+      { icon: Headphones, label: "Logitech G Pro X2 P", brand: "logitech" },
+    ],
+    performance: "Премиум-зона для максимального отклика и киберспортивного уровня",
+  },
 ]
 
 // Цвета для брендов
@@ -109,6 +135,7 @@ const brandColors = {
   amd: "text-red-500",
   hyperx: "text-purple-500",
   logitech: "text-gray-400",
+  benq: "text-cyan-400",
   asus: "text-orange-500",
   darkproject: "text-indigo-500",
   varmilo: "text-pink-500",

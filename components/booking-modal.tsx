@@ -82,6 +82,7 @@ const zoneOptions = [
   { value: "premium", label: "Standart Premium", price: "1 200₸/час" },
   { value: "vip", label: "VIP", price: "1 400₸/час" },
   { value: "pro", label: "PRO", price: "1 800₸/час" },
+  { value: "elite", label: "Elite", price: "2 800₸/час" },
   { value: "ps5", label: "PS5", price: "1 200₸/час" },
   { value: "simracing", label: "SimRacing", price: "2 500₸/час" },
 ]

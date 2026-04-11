@@ -50,12 +50,12 @@ export const siteContent = {
     description: "Топовое железо, PS5 и SimRacing. Пространство для игр, отдыха и встреч в Усть-Каменогорске.",
     typedWords: ["Компьютеры", "PS5", "SimRacing", "вечеринки", "турниры"],
     stats: [
-      { label: "ПК всего", value: 66, description: "игровых станций", icon: "monitor" },
+      { label: "ПК всего", value: 67, description: "игровых станций", icon: "monitor" },
       { label: "PS5", value: 4, description: "консоли", icon: "gamepad" },
       { label: "SimRacing", value: 2, description: "установки", icon: "car" },
-      { label: "Мониторы", value: 540, description: "Hz макс", icon: "zap", suffix: "Hz" },
+      { label: "Мониторы", value: 600, description: "Hz макс", icon: "zap", suffix: "Hz" },
     ],
-    quickFacts: ["24/7 без выходных", "До 70 гостей", "540Hz мониторы"],
+    quickFacts: ["24/7 без выходных", "До 70 гостей", "600Hz мониторы"],
     salesPoints: [
       {
         title: "Бронь за 30 секунд",
@@ -145,6 +145,21 @@ export const siteContent = {
           { label: "2+1", value: 3600, unit: "₸ за 3ч", type: "package", discount: 10 },
           { label: "3+2", value: 5400, unit: "₸ за 5ч", type: "package", discount: 15 },
           { label: "Ночь", value: 5800, unit: "₸/ночь", type: "night" },
+        ],
+      },
+      {
+        name: "Elite",
+        pcs: "1 ПК",
+        description: "Флагманская зона с топовой сборкой и монитором 600Hz",
+        icon: "crown",
+        color: "text-cyan-400",
+        bgColor: "bg-cyan-500/10",
+        featured: true,
+        prices: [
+          { label: "Час", value: 2800, unit: "₸/час", type: "hour" },
+          { label: "2+1", value: 5600, unit: "₸ за 3ч", type: "package", discount: 10 },
+          { label: "3+2", value: 8200, unit: "₸ за 5ч", type: "package", discount: 15 },
+          { label: "Ночь", value: 10000, unit: "₸/ночь", type: "night" },
         ],
       },
     ],
