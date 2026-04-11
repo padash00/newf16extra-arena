@@ -4,7 +4,7 @@ import * as React from "react"
 import { useState } from "react"
 import Image from "next/image"
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel"
-import { Camera, X, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
+import { Camera, ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react"
 import AutoScroll from "embla-carousel-auto-scroll"
 
 const photos = [
@@ -77,17 +77,11 @@ export function GallerySection() {
     document.body.style.overflow = "unset"
   }
 
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % photos.length)
-  }
-
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)
-  }
+  const nextImage = () => setCurrentIndex((prev) => (prev + 1) % photos.length)
+  const prevImage = () => setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)
 
   const toggleAutoPlay = () => {
     if (!emblaApi) return
-
     if (isAutoPlaying) {
       autoScroll.current.stop()
     } else {
@@ -99,7 +93,6 @@ export function GallerySection() {
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!lightboxOpen) return
-
       if (e.key === "Escape") closeLightbox()
       if (e.key === "ArrowRight") nextImage()
       if (e.key === "ArrowLeft") prevImage()
@@ -117,34 +110,37 @@ export function GallerySection() {
 
   return (
     <>
-      <section id="gallery" className="py-20 bg-background relative overflow-hidden">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] md:text-[20vw] font-bold text-secondary/30 pointer-events-none select-none whitespace-nowrap blur-sm z-0"
-          aria-hidden="true"
-        >
-          ATMOSPHERE
-        </div>
-
-        <div className="relative z-10 w-full">
-          <div className="container mx-auto px-4 text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-medium mb-6">
-              <Camera className="w-4 h-4" />
-              Интерьер
+      <section id="gallery" className="section-shell py-24">
+        <div className="container relative z-10 mx-auto px-4">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <div className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-[rgba(185,154,99,0.96)]">
+              <Camera className="h-4 w-4" />
+              Атмосфера клуба
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Атмосфера <span className="text-primary">F16</span>
+            <h2 className="mt-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+              Живой интерьер,
+              <span className="block text-primary">а не шаблонный рендер</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Почувствуй вайб реального гейминга</p>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">
+              Реальные фото клуба, света, посадок и зон, чтобы человек сразу почувствовал место ещё до приезда.
+            </p>
           </div>
 
-          <div className="w-full relative">
-            <button
-              onClick={toggleAutoPlay}
-              className="absolute top-2 right-2 z-20 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all"
-              aria-label={isAutoPlaying ? "Пауза" : "Автопрокрутка"}
-            >
-              {isAutoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-            </button>
+          <div className="premium-panel overflow-hidden rounded-[2rem] p-4 sm:p-5">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.22em] text-[rgba(185,154,99,0.9)]">F16 Atmosphere</div>
+                <div className="mt-2 text-xl font-semibold text-foreground">Интерьер, зоны и вайб клуба</div>
+              </div>
+
+              <button
+                onClick={toggleAutoPlay}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 text-foreground transition-colors hover:bg-secondary"
+                aria-label={isAutoPlaying ? "Пауза" : "Автопрокрутка"}
+              >
+                {isAutoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+              </button>
+            </div>
 
             <Carousel
               opts={{
@@ -156,27 +152,34 @@ export function GallerySection() {
               className="w-full"
               setApi={(api) => setEmblaApi(api)}
             >
-              <CarouselContent className="-ml-1">
+              <CarouselContent className="-ml-2">
                 {photos.map((src, index) => (
                   <CarouselItem
                     key={index}
-                    className="pl-1 basis-[85%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 cursor-pointer"
+                    className="basis-[86%] pl-2 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                     onClick={() => openLightbox(index)}
                   >
-                    <div className="h-[300px] sm:h-[400px] relative group overflow-hidden bg-secondary/20 rounded-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <div className="group relative h-[300px] cursor-pointer overflow-hidden rounded-[1.6rem] border border-[rgba(185,154,99,0.14)] bg-secondary/20">
                       <Image
                         src={src}
                         alt={`Интерьер F16 Arena - фото ${index + 1}`}
                         fill
-                        sizes="(max-width: 640px) 85vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                        className="object-cover transition-all duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 86vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                         loading={index < 4 ? "eager" : "lazy"}
                         priority={index < 4}
                         quality={80}
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                        <Camera className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-8 h-8" />
+                      <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,7,7,0.72),rgba(8,7,7,0.08))]" />
+                      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
+                        <div>
+                          <div className="text-[11px] uppercase tracking-[0.18em] text-[rgba(185,154,99,0.95)]">F16 Arena</div>
+                          <div className="mt-1 text-sm font-medium text-foreground">Фото {index + 1}</div>
+                        </div>
+                        <div className="rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100">
+                          Открыть
+                        </div>
                       </div>
                     </div>
                   </CarouselItem>
@@ -188,16 +191,16 @@ export function GallerySection() {
       </section>
 
       {lightboxOpen && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={closeLightbox}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95" onClick={closeLightbox}>
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-all"
+            className="absolute right-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Закрыть"
           >
-            <X className="w-6 h-6" />
+            <X className="h-6 w-6" />
           </button>
 
-          <div className="absolute top-4 left-4 z-50 bg-white/10 text-white px-3 py-1 rounded-full text-sm">
+          <div className="absolute left-4 top-4 z-50 rounded-full bg-white/10 px-3 py-1 text-sm text-white">
             {currentIndex + 1} / {photos.length}
           </div>
 
@@ -206,10 +209,10 @@ export function GallerySection() {
               e.stopPropagation()
               prevImage()
             }}
-            className="absolute left-4 z-50 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all"
+            className="absolute left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Предыдущее фото"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="h-6 w-6" />
           </button>
 
           <button
@@ -217,13 +220,13 @@ export function GallerySection() {
               e.stopPropagation()
               nextImage()
             }}
-            className="absolute right-4 z-50 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all"
+            className="absolute right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Следующее фото"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="h-6 w-6" />
           </button>
 
-          <div className="relative w-full h-full max-w-7xl max-h-[90vh] m-4" onClick={(e) => e.stopPropagation()}>
+          <div className="relative m-4 h-full max-h-[90vh] w-full max-w-7xl" onClick={(e) => e.stopPropagation()}>
             <Image
               src={photos[currentIndex]}
               alt={`Фото ${currentIndex + 1}`}
@@ -233,10 +236,6 @@ export function GallerySection() {
               unoptimized
               priority
             />
-          </div>
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-sm hidden sm:block">
-            ← → или ESC
           </div>
         </div>
       )}

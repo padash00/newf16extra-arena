@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Gamepad2, Car, Package, Sparkles, Star } from "lucide-react"
+import { Car, Gamepad2, Package, Sparkles, Star } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
 import { siteContent } from "@/lib/site-content"
 import { cn } from "@/lib/utils"
@@ -46,33 +46,32 @@ export function ExtraSection() {
     return selectedItem.billing === "hourly" ? selectedItem.price * (hours[category] || 1) : selectedItem.price
   }
 
-  const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "₸"
-  }
+  const formatPrice = (price: number) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "₸"
 
   return (
-    <section id="extra" className="py-20 sm:py-32 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
-            Развлечения нового уровня
+    <section id="extra" className="section-shell py-24 sm:py-32">
+      <div className="container relative z-10 mx-auto px-4">
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <div className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-[rgba(185,154,99,0.96)]">
+            <Sparkles className="h-4 w-4" />
+            F16 Extra
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            F16 Extra — <span className="text-primary">PS5 и SimRacing</span>
+          <h2 className="mt-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            Отдельное пространство
+            <span className="block text-primary">для PS5 и SimRacing</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Выберите формат отдыха: консоли или полный драйв за рулём
+          <p className="mt-4 text-lg leading-8 text-muted-foreground">
+            Не только ПК-зоны: консоли, кокпиты и готовые пакеты для компании собраны в отдельный premium-блок.
           </p>
 
-          <div className="flex items-center justify-center gap-2 mt-6">
+          <div className="mt-7 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 p-1.5">
             {filters.map((filter) => (
               <Button
                 key={filter.id}
-                variant={activeFilter === filter.id ? "default" : "outline"}
+                variant={activeFilter === filter.id ? "default" : "ghost"}
                 size="sm"
                 onClick={() => setActiveFilter(filter.id)}
-                className="rounded-full"
+                className="rounded-full px-5"
               >
                 {filter.label}
               </Button>
@@ -80,37 +79,34 @@ export function ExtraSection() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className="grid gap-6 lg:grid-cols-2">
           {filteredItems.map((item) => {
             const selectedItem = getSelectedItem(item.category)
             const totalPrice = calculatePrice(item.category)
+            const Icon = extraIcons[item.icon]
 
             return (
-              <div
-                key={item.category}
-                className="bg-card border border-border rounded-2xl p-6 hover:shadow-lg transition-all"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={cn("p-3 rounded-xl", item.bgColor, item.color)}>
-                    {(() => {
-                      const Icon = extraIcons[item.icon]
-                      return <Icon className="w-6 h-6" />
-                    })()}
+              <article key={item.category} className="premium-panel rounded-[1.9rem] p-6 backdrop-blur-xl">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className={cn("flex h-14 w-14 items-center justify-center rounded-2xl border border-white/6", item.bgColor, item.color)}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-semibold text-foreground">{item.category}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground text-xl">{item.category}</h3>
-                  </div>
+
                   {item.popular && (
-                    <div className="flex items-center gap-1 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                      <Star className="w-3 h-3" />
-                      Популярное
+                    <div className="inline-flex items-center gap-1 rounded-full bg-primary/12 px-2.5 py-1 text-xs font-medium text-primary">
+                      <Star className="h-3.5 w-3.5" />
+                      Популярно
                     </div>
                   )}
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-6">{item.description}</p>
-
-                <div className="space-y-3 mb-6">
+                <div className="mt-6 space-y-3">
                   {item.items.map((subItem) => {
                     const isSelected = selectedItemByCategory[item.category] === subItem.name
 
@@ -125,19 +121,21 @@ export function ExtraSection() {
                           }))
                         }
                         className={cn(
-                          "w-full flex items-center justify-between p-3 rounded-xl transition-all text-left",
+                          "w-full rounded-[1.25rem] border px-4 py-4 text-left transition-all",
                           isSelected
-                            ? "bg-primary/10 border border-primary"
-                            : "bg-secondary/20 hover:bg-secondary/30 border border-transparent",
+                            ? "border-[rgba(223,255,87,0.42)] bg-[rgba(223,255,87,0.08)]"
+                            : "border-[rgba(185,154,99,0.14)] bg-[rgba(255,255,255,0.02)] hover:bg-secondary/70",
                         )}
                       >
-                        <div>
-                          <span className="text-foreground font-medium">{subItem.name}</span>
-                          <p className="text-xs text-muted-foreground mt-1">{subItem.note}</p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-primary font-bold text-lg">{formatPrice(subItem.price)}</div>
-                          <div className="text-xs text-muted-foreground">{subItem.priceStr}</div>
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <div className="text-base font-semibold text-foreground">{subItem.name}</div>
+                            <div className="mt-1 text-sm text-muted-foreground">{subItem.note}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-mono text-xl font-semibold text-primary">{formatPrice(subItem.price)}</div>
+                            <div className="mt-1 text-xs uppercase tracking-[0.14em] text-[rgba(185,154,99,0.86)]">{subItem.priceStr}</div>
+                          </div>
                         </div>
                       </button>
                     )
@@ -145,10 +143,11 @@ export function ExtraSection() {
                 </div>
 
                 {selectedItem?.billing === "hourly" && (
-                  <div className="mb-6">
-                    <label className="text-sm text-muted-foreground mb-2 block">
-                      Количество часов: <span className="text-primary font-bold">{hours[item.category] || 1}</span>
-                    </label>
+                  <div className="mt-6 rounded-[1.35rem] border border-[rgba(185,154,99,0.14)] bg-[rgba(255,255,255,0.02)] p-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Количество часов</span>
+                      <span className="font-mono text-lg font-semibold text-foreground">{hours[item.category] || 1}</span>
+                    </div>
                     <input
                       type="range"
                       min="1"
@@ -160,24 +159,24 @@ export function ExtraSection() {
                           [item.category]: parseInt(e.target.value, 10),
                         }))
                       }
-                      className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+                      className="mt-4 w-full cursor-pointer appearance-none rounded-lg accent-primary"
                     />
-                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>1 час</span>
-                      <span>3 часа</span>
-                      <span>6 часов</span>
+                    <div className="mt-2 flex justify-between text-xs uppercase tracking-[0.14em] text-[rgba(185,154,99,0.82)]">
+                      <span>1 ч</span>
+                      <span>3 ч</span>
+                      <span>6 ч</span>
                     </div>
                   </div>
                 )}
 
-                <div className="mb-4 rounded-xl bg-secondary/20 p-3">
-                  <div className="text-sm text-muted-foreground">К оплате</div>
-                  <div className="text-2xl font-bold text-primary font-mono">{formatPrice(totalPrice)}</div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {selectedItem?.billing === "hourly"
-                      ? "Сумма зависит от выбранного количества часов."
-                      : "Фиксированная стоимость пакета."}
+                <div className="mt-6 flex items-end justify-between rounded-[1.35rem] bg-[rgba(223,255,87,0.07)] px-4 py-4">
+                  <div>
+                    <div className="text-[11px] uppercase tracking-[0.18em] text-[rgba(185,154,99,0.9)]">К оплате</div>
+                    <div className="mt-1 text-sm text-muted-foreground">
+                      {selectedItem?.billing === "hourly" ? "Почасовой расчёт" : "Фиксированная цена пакета"}
+                    </div>
                   </div>
+                  <div className="font-mono text-3xl font-semibold text-primary">{formatPrice(totalPrice)}</div>
                 </div>
 
                 <Button
@@ -187,81 +186,68 @@ export function ExtraSection() {
                       price: formatPrice(totalPrice),
                     })
                   }
-                  className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  className="mt-5 h-12 w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   Забронировать
                 </Button>
-              </div>
+              </article>
             )
           })}
         </div>
 
-        <div className="relative">
-          <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary">
-                <Package className="w-6 h-6" />
+        <div className="mt-10 premium-panel rounded-[2rem] p-6 backdrop-blur-xl sm:p-8">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <div className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-[rgba(185,154,99,0.96)]">
+                <Package className="h-4 w-4" />
+                Готовые сценарии
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground text-xl">Пакеты аренды</h3>
-              </div>
+              <h3 className="mt-4 text-3xl font-bold tracking-tight text-foreground">Пакеты для компании и вечера</h3>
+              <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+                Если хочется не выбирать по отдельности, бери готовый набор под друзей, день рождения или короткий вечерний заход.
+              </p>
             </div>
-            <p className="text-sm text-muted-foreground mb-8">
-              Готовые решения для вечеринок, дней рождения и корпоративов
-            </p>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {packages.map((pkg, index) => (
-                <div
-                  key={index}
-                  onClick={() => setSelectedExtra({ name: `ПАКЕТ: ${pkg.name}`, price: pkg.price })}
-                  className={cn(
-                    "rounded-xl p-4 text-center transition-all cursor-pointer relative",
-                    pkg.popular
-                      ? "bg-primary/10 border-2 border-primary"
-                      : "bg-secondary/30 border border-border hover:border-primary/30",
-                  )}
-                >
-                  {pkg.discount && (
-                    <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                      -
-                      {Math.round(
-                        (1 -
-                          parseInt(pkg.price.replace(/\D/g, ""), 10) /
-                            parseInt(pkg.oldPrice?.replace(/\D/g, "") || "0", 10)) *
-                          100,
-                      )}
-                      %
-                    </div>
-                  )}
-                  {pkg.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
-                      Лучший выбор
-                    </div>
-                  )}
-
-                  <div className="text-xs text-muted-foreground mb-2">{pkg.duration}</div>
-                  <div className="font-semibold text-foreground mb-2">{pkg.name}</div>
-
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <div className="text-2xl font-bold text-primary font-mono">{pkg.price}</div>
-                    {pkg.oldPrice && <div className="text-sm text-muted-foreground line-through">{pkg.oldPrice}</div>}
-                  </div>
-
-                  {pkg.subtitle && <div className="text-xs text-muted-foreground leading-relaxed">{pkg.subtitle}</div>}
-                </div>
-              ))}
+            <div className="rounded-full border border-[rgba(185,154,99,0.18)] bg-card/60 px-4 py-2 text-sm text-muted-foreground">
+              Подтверждаем через WhatsApp
             </div>
+          </div>
 
-            <div className="mt-8 text-center">
-              <Button
-                size="lg"
-                onClick={() => setSelectedExtra({ name: "Пакетное предложение", price: "Уточнить" })}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8"
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {packages.map((pkg, index) => (
+              <div
+                key={`${pkg.name}-${index}`}
+                onClick={() => setSelectedExtra({ name: `ПАКЕТ: ${pkg.name}`, price: pkg.price })}
+                className={cn(
+                  "relative cursor-pointer rounded-[1.45rem] border p-5 transition-all hover:-translate-y-1",
+                  pkg.popular
+                    ? "border-[rgba(223,255,87,0.36)] bg-[rgba(223,255,87,0.08)]"
+                    : "border-[rgba(185,154,99,0.14)] bg-[rgba(255,255,255,0.02)] hover:bg-secondary/70",
+                )}
               >
-                Забронировать пакет
-              </Button>
-            </div>
+                {pkg.popular && (
+                  <div className="absolute -top-3 left-4 rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
+                    Лучший выбор
+                  </div>
+                )}
+                <div className="text-[11px] uppercase tracking-[0.16em] text-[rgba(185,154,99,0.86)]">{pkg.duration}</div>
+                <div className="mt-3 text-xl font-semibold text-foreground">{pkg.name}</div>
+                <div className="mt-4 flex items-end gap-2">
+                  <div className="font-mono text-3xl font-semibold text-primary">{pkg.price}</div>
+                  {pkg.oldPrice && <div className="pb-1 text-sm text-muted-foreground line-through">{pkg.oldPrice}</div>}
+                </div>
+                {pkg.subtitle && <div className="mt-3 text-sm leading-6 text-muted-foreground">{pkg.subtitle}</div>}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Button
+              size="lg"
+              onClick={() => setSelectedExtra({ name: "Пакетное предложение", price: "Уточнить" })}
+              className="h-[52px] rounded-full bg-secondary px-8 text-secondary-foreground hover:bg-secondary/80"
+            >
+              Забронировать пакет
+            </Button>
           </div>
         </div>
       </div>

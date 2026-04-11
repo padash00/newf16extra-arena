@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Monitor, Crown, Star, Zap, TrendingUp, Percent, Filter } from "lucide-react"
+import { Crown, Filter, Monitor, Percent, Star, TrendingUp, Zap } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
 import { siteContent } from "@/lib/site-content"
 import { cn } from "@/lib/utils"
@@ -51,9 +51,7 @@ export function PriceSection() {
   const [sortBy, setSortBy] = useState("default")
   const [activeFilter, setActiveFilter] = useState("all")
 
-  const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "₸"
-  }
+  const formatPrice = (price: number) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "₸"
 
   const getPricePerHour = (price: ZonePrice) => {
     if (price.type === "hour") return price.value
@@ -91,9 +89,7 @@ export function PriceSection() {
     return 0
   })
 
-  const getSelectedPrice = (zone: Zone) => {
-    return zone.prices.find((price) => price.label === selectedPriceByZone[zone.name]) ?? zone.prices[0]
-  }
+  const getSelectedPrice = (zone: Zone) => zone.prices.find((price) => price.label === selectedPriceByZone[zone.name]) ?? zone.prices[0]
 
   const getTotalPrice = (zone: Zone) => {
     const selectedPrice = getSelectedPrice(zone)
@@ -102,30 +98,35 @@ export function PriceSection() {
   }
 
   return (
-    <section id="price" className="py-20 sm:py-32 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full text-sm font-medium mb-6">
-            <TrendingUp className="w-4 h-4" />
-            Цены и тарифы
+    <section id="price" className="section-shell py-24 sm:py-32">
+      <div className="container relative z-10 mx-auto px-4">
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <div className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-[rgba(185,154,99,0.96)]">
+            <TrendingUp className="h-4 w-4" />
+            Premium pricing
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Прайс <span className="text-primary">F16 Arena</span>
+          <h2 className="mt-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            Прайс, собранный
+            <span className="block text-primary">по зонам и уровню комфорта</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Прозрачные цены на все зоны клуба</p>
+          <p className="mt-4 text-lg leading-8 text-muted-foreground">
+            От стандартных посадок до Elite: понятные тарифы, отдельные пакеты и честная ночная ставка.
+          </p>
+        </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <div className="flex items-center gap-2 bg-card border border-border rounded-full p-1">
-              <Filter className="w-4 h-4 text-muted-foreground ml-2" />
+        <div className="mb-8 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 p-1.5">
+              <Filter className="ml-2 h-4 w-4 text-[rgba(185,154,99,0.85)]" />
               {timeFilters.map((filter) => (
                 <button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}
                   className={cn(
-                    "px-3 py-1 text-sm rounded-full transition-all",
+                    "rounded-full px-4 py-2 text-sm transition-all",
                     activeFilter === filter.id
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground",
+                      ? "bg-primary text-primary-foreground shadow-[0_12px_30px_rgba(223,255,87,0.12)]"
+                      : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                   )}
                 >
                   {filter.label}
@@ -133,55 +134,68 @@ export function PriceSection() {
               ))}
             </div>
 
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-card border border-border rounded-full px-4 py-2 text-sm text-foreground"
-            >
-              {sortOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div className="rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 px-4 py-2 text-sm text-muted-foreground">
+              71 ПК, 5 уровней посадки
+            </div>
           </div>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="h-12 rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 px-5 text-sm text-foreground outline-none transition-colors focus:border-[rgba(223,255,87,0.45)]"
+          >
+            {sortOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-5">
           {sortedZones.map((zone) => {
             const selectedPrice = getSelectedPrice(zone)
             const totalPrice = getTotalPrice(zone)
+            const Icon = iconMap[zone.icon]
 
             return (
               <div
                 key={zone.name}
-                className="bg-card border border-border rounded-2xl p-6 hover:shadow-lg transition-all"
+                className={cn(
+                  "premium-panel rounded-[1.9rem] p-5 backdrop-blur-xl transition-all hover:-translate-y-1",
+                  zone.featured && "border-[rgba(223,255,87,0.28)] shadow-[0_24px_54px_rgba(0,0,0,0.32)]",
+                )}
               >
-                <div className="flex items-center justify-between mb-4">
+                <div className="mb-5 flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className={cn("p-2.5 rounded-xl", zone.bgColor, zone.color)}>
-                      {(() => {
-                        const Icon = iconMap[zone.icon]
-                        return <Icon className="w-5 h-5" />
-                      })()}
+                    <div
+                      className={cn(
+                        "flex h-12 w-12 items-center justify-center rounded-2xl border border-[rgba(255,255,255,0.06)]",
+                        zone.bgColor,
+                        zone.color,
+                      )}
+                    >
+                      <Icon className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground">{zone.name}</h3>
-                      <p className="text-xs text-muted-foreground">{zone.pcs}</p>
+                      <h3 className="text-lg font-semibold text-foreground">{zone.name}</h3>
+                      <p className="text-xs uppercase tracking-[0.18em] text-[rgba(185,154,99,0.85)]">{zone.pcs}</p>
                     </div>
                   </div>
                   {zone.featured && (
-                    <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">Популярный</div>
+                    <div className="rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
+                      Featured
+                    </div>
                   )}
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-4">{zone.description}</p>
+                <p className="mb-5 min-h-12 text-sm leading-6 text-muted-foreground">{zone.description}</p>
 
-                <div className="space-y-2 mb-6">
+                <div className="space-y-2.5">
                   {zone.prices.map((price) => {
                     const isBestDeal = price.type === "package" && price.discount
-                    const pricePerHour = getPricePerHour(price)
                     const isSelected = selectedPriceByZone[zone.name] === price.label
+                    const pricePerHour = getPricePerHour(price)
 
                     return (
                       <button
@@ -194,75 +208,86 @@ export function PriceSection() {
                           }))
                         }
                         className={cn(
-                          "w-full flex items-center justify-between p-3 rounded-xl transition-all text-left",
+                          "w-full rounded-[1.2rem] border px-3.5 py-3 text-left transition-all",
                           isSelected
-                            ? "bg-primary/10 border border-primary"
-                            : "bg-secondary/20 hover:bg-secondary/30 border border-transparent",
+                            ? "border-[rgba(223,255,87,0.42)] bg-[rgba(223,255,87,0.08)]"
+                            : "border-[rgba(185,154,99,0.14)] bg-[rgba(255,255,255,0.02)] hover:bg-secondary/70",
                         )}
                       >
-                        <div className="flex flex-col">
-                          <div className="flex items-center gap-2">
-                            <span className="text-foreground font-medium">{price.label}</span>
-                            {isBestDeal && (
-                              <span className="text-xs bg-green-500/10 text-green-500 px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
-                                <Percent className="w-2 h-2" />
-                                -{price.discount}%
-                              </span>
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-semibold text-foreground">{price.label}</span>
+                              {isBestDeal && (
+                                <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(223,255,87,0.12)] px-1.5 py-0.5 text-[11px] font-medium text-primary">
+                                  <Percent className="h-3 w-3" />
+                                  -{price.discount}%
+                                </span>
+                              )}
+                            </div>
+                            <div className="mt-1 text-xs text-muted-foreground">{price.unit}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-mono text-lg font-semibold text-foreground">{formatPrice(price.value)}</div>
+                            {price.type !== "hour" && (
+                              <div className="mt-1 text-[11px] uppercase tracking-[0.14em] text-[rgba(185,154,99,0.86)]">
+                                {formatPrice(Math.round(pricePerHour))}/час
+                              </div>
                             )}
                           </div>
-                          <span className="text-xs text-muted-foreground">{price.unit}</span>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-lg font-bold text-foreground font-mono">{formatPrice(price.value)}</div>
-                          {price.type !== "hour" && (
-                            <div className="text-xs text-muted-foreground">{formatPrice(pricePerHour)}/час</div>
-                          )}
                         </div>
                       </button>
                     )
                   })}
                 </div>
 
-                <div className="mb-4 p-3 bg-secondary/20 rounded-lg">
+                <div className="mt-5 rounded-[1.3rem] border border-[rgba(185,154,99,0.14)] bg-[rgba(255,255,255,0.02)] p-4">
                   {selectedPrice.type === "hour" ? (
                     <>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-muted-foreground">Часов:</span>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() =>
-                              setHoursByZone((prev) => ({
-                                ...prev,
-                                [zone.name]: Math.max(1, (prev[zone.name] ?? 1) - 1),
-                              }))
-                            }
-                            className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary/20"
-                          >
-                            -
-                          </button>
-                          <span className="w-8 text-center font-medium">{hoursByZone[zone.name] ?? 1}</span>
-                          <button
-                            onClick={() =>
-                              setHoursByZone((prev) => ({
-                                ...prev,
-                                [zone.name]: Math.min(12, (prev[zone.name] ?? 1) + 1),
-                              }))
-                            }
-                            className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary/20"
-                          >
-                            +
-                          </button>
-                        </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Количество часов</span>
+                        <span className="font-mono text-base font-semibold text-foreground">{hoursByZone[zone.name] ?? 1}</span>
                       </div>
-                      <div className="text-xs text-muted-foreground">Сумма пересчитывается только для почасового тарифа.</div>
+                      <div className="mt-3 flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            setHoursByZone((prev) => ({
+                              ...prev,
+                              [zone.name]: Math.max(1, (prev[zone.name] ?? 1) - 1),
+                            }))
+                          }
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 text-foreground transition-colors hover:bg-secondary"
+                        >
+                          -
+                        </button>
+                        <div className="flex-1 rounded-full bg-secondary/70 px-4 py-2 text-center text-sm text-muted-foreground">
+                          Почасовой тариф
+                        </div>
+                        <button
+                          onClick={() =>
+                            setHoursByZone((prev) => ({
+                              ...prev,
+                              [zone.name]: Math.min(12, (prev[zone.name] ?? 1) + 1),
+                            }))
+                          }
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 text-foreground transition-colors hover:bg-secondary"
+                        >
+                          +
+                        </button>
+                      </div>
                     </>
                   ) : (
-                    <div className="text-sm text-muted-foreground">Фиксированная цена за выбранный тариф.</div>
+                    <div className="text-sm leading-6 text-muted-foreground">
+                      Выбран фиксированный пакет. Цена не меняется и уже оптимальна для этого формата.
+                    </div>
                   )}
 
-                  <div className="flex items-center justify-between pt-2 mt-2 border-t border-border">
-                    <span className="text-sm font-medium">Итого:</span>
-                    <span className="text-xl font-bold text-primary font-mono">{formatPrice(totalPrice)}</span>
+                  <div className="mt-4 flex items-end justify-between border-t border-border/70 pt-4">
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.16em] text-[rgba(185,154,99,0.86)]">Итого</div>
+                      <div className="mt-1 text-sm text-muted-foreground">{selectedPrice.label}</div>
+                    </div>
+                    <div className="font-mono text-2xl font-semibold text-primary">{formatPrice(totalPrice)}</div>
                   </div>
                 </div>
 
@@ -273,7 +298,12 @@ export function PriceSection() {
                       price: formatPrice(totalPrice),
                     })
                   }
-                  className="w-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground"
+                  className={cn(
+                    "mt-5 h-12 w-full rounded-full",
+                    zone.featured
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                  )}
                 >
                   Забронировать
                 </Button>

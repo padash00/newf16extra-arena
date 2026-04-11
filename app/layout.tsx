@@ -1,18 +1,19 @@
 import type { Metadata, Viewport } from "next"
-import { Inter, Geist_Mono } from "next/font/google"
+import { IBM_Plex_Mono, Manrope } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { siteContent } from "@/lib/site-content"
 import { getSiteUrl } from "@/lib/site-metadata"
 import "./globals.css"
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
   variable: "--font-sans",
 })
 
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600"],
   variable: "--font-mono",
 })
 
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#cde901",
+  themeColor: "#dfff57",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -83,7 +84,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}>
+      <body className={`${manrope.variable} ${ibmPlexMono.variable} font-sans antialiased bg-background text-foreground`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
