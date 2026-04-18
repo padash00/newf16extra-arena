@@ -158,7 +158,7 @@ export const siteContent = {
         prices: [
           { label: "Час", value: 2800, unit: "₸/час", type: "hour" },
           { label: "2+1", value: 5600, unit: "₸ за 3ч", type: "package", discount: 10 },
-          { label: "3+2", value: 8200, unit: "₸ за 5ч", type: "package", discount: 15 },
+          { label: "3+2", value: 8400, unit: "₸ за 5ч", type: "package", discount: 15 },
           { label: "Ночь", value: 10000, unit: "₸/ночь", type: "night" },
         ],
       },
