@@ -108,7 +108,7 @@ const devices = [
     ],
     gear: [
       { icon: Mouse, label: "Logitech G Pro X Superlight 2", brand: "logitech" },
-      { icon: Keyboard, label: "Varmilo Minilo Wireless", brand: "varmilo" },
+      { icon: Keyboard, label: "Logitech TKL Rapid", brand: "logitech" },
       { icon: Headphones, label: "Logitech G Pro X 2 Lightspeed", brand: "logitech" },
     ],
     performance: "Топ для киберспорта, 360+ FPS в CS2, 250+ в PUBG",
