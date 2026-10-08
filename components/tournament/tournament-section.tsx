@@ -19,7 +19,7 @@ export function TournamentSection() {
 
   if (!t) {
     return (
-      <section id="tournaments" aria-labelledby="tournaments-title" className="relative z-10 py-10">
+      <section id="tournaments" aria-labelledby="tournaments-title" className="relative z-10 scroll-mt-28 py-10">
         <div className="container mx-auto px-4">
           <div className="premium-panel flex flex-col gap-5 rounded-[1.8rem] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
             <div className="flex items-start gap-4">
@@ -80,7 +80,7 @@ export function TournamentSection() {
   ].filter(Boolean) as { icon: typeof Trophy; label: string; value: string }[]
 
   return (
-    <section id="tournaments" aria-labelledby="tournaments-title" className="relative z-10 py-12">
+    <section id="tournaments" aria-labelledby="tournaments-title" className="relative z-10 scroll-mt-28 py-12">
       <div className="container mx-auto px-4">
         <div className="mb-5 flex items-center gap-3">
           <span className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-[rgba(185,154,99,0.96)]">
@@ -96,8 +96,8 @@ export function TournamentSection() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={t.cover_url} alt={`Обложка турнира ${t.name}`} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Trophy className="h-24 w-24 text-primary/70 drop-shadow-[0_0_40px_rgba(223,255,87,0.35)]" aria-hidden />
+              <div className="absolute inset-0 flex items-start justify-center pt-8 sm:items-center sm:pt-0">
+                <Trophy className="h-16 w-16 sm:h-24 sm:w-24 text-primary/70 drop-shadow-[0_0_40px_rgba(223,255,87,0.35)]" aria-hidden />
               </div>
             )}
             <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,7,7,0.75),transparent_55%)]" />

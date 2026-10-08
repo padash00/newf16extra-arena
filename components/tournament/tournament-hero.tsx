@@ -53,12 +53,12 @@ export function TournamentHeroBanner() {
                 <li key={m.id}>
                   <a
                     href={withFrom(m.url)}
-                    className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-2xl border border-white/8 bg-black/30 px-3 py-2.5 text-sm transition-colors hover:border-[rgba(255,77,77,0.4)] hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-white/8 bg-black/30 px-3 py-2.5 text-sm transition-colors hover:border-[rgba(255,77,77,0.4)] hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   >
                     <span className={`truncate text-right font-medium ${lead1 ? "text-foreground" : "text-[rgba(246,240,231,0.72)]"}`}>
                       {m.team1}
                     </span>
-                    <span className="flex flex-col items-center">
+                    <span className="flex min-w-[6.5rem] flex-col items-center">
                       <span className="font-mono text-base font-semibold tabular-nums text-foreground">
                         <span className={lead1 ? "text-primary" : undefined}>{m.score1}</span>
                         <span className="px-1 text-[rgba(246,240,231,0.5)]">:</span>

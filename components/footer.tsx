@@ -5,6 +5,7 @@ import { ArrowUp, Clock, CreditCard, Instagram, Mail, MapPin, MessageCircle, Pho
 import { cn } from "@/lib/utils"
 import { siteContent } from "@/lib/site-content"
 import { BrandLogo } from "@/components/brand-logo"
+import { TOURNAMENT_SITE_URL, withFrom } from "@/lib/tournament"
 
 const footerLinks = [
   { href: "#price", label: "Прайс" },
@@ -97,6 +98,12 @@ export function Footer() {
                       {link.label}
                     </a>
                   ))}
+                  <a
+                    href={withFrom(TOURNAMENT_SITE_URL)}
+                    className="block text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                  >
+                    Турниры
+                  </a>
                 </div>
               </div>
 
