@@ -7,7 +7,7 @@ export const siteContent = {
     subtitle: "Cyber Lounge & Extra",
     city: "Усть-Каменогорск",
     address: "ул. 30-й Гвардейской Дивизии, 24/1",
-    email: "info@f16arena.kz",
+    email: "f16arena@gmail.com",
     workingLabel: "24/7 без выходных",
   },
   seo: {
