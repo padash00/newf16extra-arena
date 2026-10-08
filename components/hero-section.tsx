@@ -99,7 +99,7 @@ export function HeroSection() {
     <section id="hero" className="section-shell premium-grid relative flex min-h-screen items-center overflow-hidden bg-background pt-28">
       <div className="absolute inset-0">
         <Image
-          src="/hero-simracing-elite.png"
+          src="/hero-simracing-elite.webp"
           alt=""
           fill
           priority

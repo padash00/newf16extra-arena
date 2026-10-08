@@ -14,7 +14,7 @@ export const siteContent = {
     title: "F16 Arena — Компьютерный клуб, PS5 и SimRacing в Усть-Каменогорске",
     description:
       "Топовое железо, PS5, SimRacing и бронирование через WhatsApp 24/7. Актуальные тарифы и контакты F16 Arena в Усть-Каменогорске.",
-    ogImage: "/dark-gaming-room-with-neon-lights-and-pc-setups.png",
+    ogImage: "/og-image.jpg",
     ogImageAlt: "Игровая зона F16 Arena с неоновым освещением и компьютерными сетапами",
   },
   contacts: {
