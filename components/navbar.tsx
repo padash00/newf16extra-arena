@@ -128,7 +128,7 @@ export function Navbar() {
                       scrollToSection(link.href)
                     }}
                     className={cn(
-                      "rounded-full px-4 py-2 text-sm font-medium transition-all",
+                      "whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-all xl:px-4",
                       isActive
                         ? "bg-[rgba(185,154,99,0.14)] text-foreground shadow-[inset_0_0_0_1px_rgba(185,154,99,0.28)]"
                         : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground",
@@ -140,7 +140,7 @@ export function Navbar() {
               })}
               <a
                 href={tournamentHref}
-                className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-secondary/70"
+                className="inline-flex items-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold text-primary transition-all hover:bg-secondary/70 xl:px-4"
                 aria-label={isLiveLike(tournament) ? "Турниры — сейчас идёт турнир" : "Турниры"}
               >
                 Турниры
@@ -153,7 +153,7 @@ export function Navbar() {
                 variant="outline"
                 size="sm"
                 onClick={() => scrollToSection("#price")}
-                className="h-11 rounded-full border-[rgba(185,154,99,0.28)] bg-card/70 px-5 text-foreground hover:bg-secondary"
+                className="hidden h-11 rounded-full border-[rgba(185,154,99,0.28)] bg-card/70 px-5 text-foreground hover:bg-secondary xl:inline-flex"
               >
                 ПК и Elite
               </Button>

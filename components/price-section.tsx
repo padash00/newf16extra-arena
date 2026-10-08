@@ -122,6 +122,7 @@ export function PriceSection() {
                 <button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}
+                  aria-pressed={activeFilter === filter.id}
                   className={cn(
                     "rounded-full px-4 py-2 text-sm transition-all",
                     activeFilter === filter.id
@@ -256,6 +257,8 @@ export function PriceSection() {
                               [zone.name]: Math.max(1, (prev[zone.name] ?? 1) - 1),
                             }))
                           }
+                          type="button"
+                          aria-label="Меньше часов"
                           className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 text-foreground transition-colors hover:bg-secondary"
                         >
                           -
@@ -270,6 +273,8 @@ export function PriceSection() {
                               [zone.name]: Math.min(12, (prev[zone.name] ?? 1) + 1),
                             }))
                           }
+                          type="button"
+                          aria-label="Больше часов"
                           className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(185,154,99,0.18)] bg-card/70 text-foreground transition-colors hover:bg-secondary"
                         >
                           +

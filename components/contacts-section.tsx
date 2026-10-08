@@ -131,6 +131,7 @@ export function ContactsSection() {
                       <Button
                         variant="outline"
                         onClick={() => window.open(`https://wa.me/${phoneItem.phoneRaw}`, "_blank")}
+                        aria-label={`Написать в WhatsApp (${phoneItem.label})`}
                         className="h-11 rounded-full border-[rgba(185,154,99,0.18)] bg-card/60 px-4"
                       >
                         <MessageCircle className="h-4 w-4" />
@@ -200,6 +201,7 @@ export function ContactsSection() {
                 height="100%"
                 frameBorder="0"
                 allowFullScreen
+                loading="lazy"
                 className="h-full w-full"
                 style={{ minHeight: "620px" }}
                 title="Карта F16 Arena"
