@@ -5,6 +5,7 @@ import { Menu, Phone, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { siteContent } from "@/lib/site-content"
+import { BrandLogo } from "@/components/brand-logo"
 
 const navLinks = [
   { href: "#hero", label: "Главная" },
@@ -91,18 +92,14 @@ export function Navbar() {
                 e.preventDefault()
                 scrollToSection("#hero")
               }}
-              className="flex min-w-0 items-center gap-3"
+              className="flex min-w-0 items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label={`${siteContent.brand.name} — на главную`}
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-sm font-extrabold text-primary-foreground shadow-[0_0_32px_rgba(223,255,87,0.2)]">
-                F16
-              </div>
-              <div className="min-w-0">
-                <div className="truncate text-base font-bold tracking-tight text-foreground sm:text-lg">
-                  {siteContent.brand.name}
-                </div>
-                <div className="hidden text-[11px] uppercase tracking-[0.28em] text-[rgba(185,154,99,0.9)] sm:block">
-                  Premium Cyber Lounge
-                </div>
+              <BrandLogo priority className="h-10 drop-shadow-[0_0_18px_rgba(223,255,87,0.18)] sm:h-11" />
+              <div className="hidden border-l border-[rgba(185,154,99,0.22)] pl-3 text-[11px] uppercase leading-4 tracking-[0.28em] text-[rgba(185,154,99,0.9)] sm:block lg:hidden xl:block">
+                Premium
+                <br />
+                Cyber Lounge
               </div>
             </a>
 

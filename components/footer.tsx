@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { ArrowUp, Clock, CreditCard, Instagram, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { siteContent } from "@/lib/site-content"
+import { BrandLogo } from "@/components/brand-logo"
 
 const footerLinks = [
   { href: "#price", label: "Прайс" },
@@ -51,15 +52,12 @@ export function Footer() {
           <div className="premium-panel rounded-[2rem] p-6 sm:p-8">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.7fr_0.9fr_0.8fr]">
               <div>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-sm font-extrabold text-primary-foreground">
-                    {siteContent.brand.shortName}
-                  </div>
-                  <div>
-                    <div className="text-xl font-semibold text-foreground">{siteContent.brand.name}</div>
-                    <div className="text-[11px] uppercase tracking-[0.28em] text-[rgba(185,154,99,0.9)]">
-                      Premium Cyber Lounge
-                    </div>
+                <div className="flex items-center gap-4">
+                  <BrandLogo className="h-16" />
+                  <div className="border-l border-[rgba(185,154,99,0.22)] pl-4 text-[11px] uppercase leading-5 tracking-[0.28em] text-[rgba(185,154,99,0.9)]">
+                    Premium
+                    <br />
+                    Cyber Lounge
                   </div>
                 </div>
 
