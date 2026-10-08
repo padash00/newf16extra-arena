@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer"
 import { MobileCtaBar } from "@/components/mobile-cta-bar"
 import { TournamentProvider } from "@/components/tournament/tournament-provider"
 import { TournamentSection } from "@/components/tournament/tournament-section"
+import { StructuredData } from "@/components/structured-data"
 import { getFeaturedTournament } from "@/lib/tournament-server"
 import type { FeaturedTournament } from "@/lib/tournament"
 
@@ -34,6 +35,7 @@ export default async function HomePage({ searchParams }: PageProps) {
 
   return (
     <TournamentProvider initial={tournament} poll={poll}>
+      <StructuredData />
       <main className="relative min-h-screen bg-background pb-28 selection:bg-primary selection:text-primary-foreground lg:pb-0">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(223,255,87,0.07),transparent_18%),radial-gradient(circle_at_85%_16%,rgba(185,154,99,0.08),transparent_18%)]" />
         <Navbar />

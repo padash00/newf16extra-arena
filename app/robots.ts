@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next"
-import { getSiteUrl } from "@/lib/site-metadata"
+import { getSiteUrl, isPreviewDeployment } from "@/lib/site-metadata"
 
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl()
+
+  if (isPreviewDeployment()) {
+    return { rules: { userAgent: "*", disallow: "/" } }
+  }
 
   return {
     rules: {
@@ -10,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: new URL("/sitemap.xml", siteUrl).toString(),
-    host: siteUrl.toString(),
+    host: siteUrl.host,
   }
 }
