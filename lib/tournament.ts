@@ -113,6 +113,14 @@ export function withFrom(href: string): string {
   }
 }
 
+/** "1000000" → "1 000 000 ₸"; free-form strings ("300 000 ₸ + призы") pass through. */
+export function formatPrizePool(prize: string | null): string | null {
+  if (!prize) return null
+  const trimmed = prize.trim()
+  if (/^\d+$/.test(trimmed)) return `${trimmed.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₸`
+  return trimmed
+}
+
 export const isLiveLike = (t: FeaturedTournament | null) => t?.status === "live" || t?.status === "checkin"
 
 const dateFmt = new Intl.DateTimeFormat("ru-RU", {

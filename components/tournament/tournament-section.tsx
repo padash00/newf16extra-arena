@@ -2,7 +2,7 @@
 
 import { ArrowUpRight, CalendarDays, Instagram, MapPin, Radio, Swords, Trophy, Users } from "lucide-react"
 import { useTournament } from "@/components/tournament/tournament-provider"
-import { TOURNAMENT_SITE_URL, formatTournamentDate, withFrom, type FeaturedTournament } from "@/lib/tournament"
+import { TOURNAMENT_SITE_URL, formatPrizePool, formatTournamentDate, withFrom, type FeaturedTournament } from "@/lib/tournament"
 import { siteContent } from "@/lib/site-content"
 
 const statusLabel: Record<FeaturedTournament["status"], string> = {
@@ -77,6 +77,7 @@ export function TournamentSection() {
     date && { icon: CalendarDays, label: "Старт", value: date },
     (t.mode || t.format) && { icon: Swords, label: "Формат", value: [t.mode, t.format].filter(Boolean).join(" · ") },
     t.location && { icon: MapPin, label: "Где", value: t.location },
+    t.prize_pool && t.cover_url && { icon: Trophy, label: "Призовой фонд", value: formatPrizePool(t.prize_pool) },
   ].filter(Boolean) as { icon: typeof Trophy; label: string; value: string }[]
 
   return (
@@ -90,7 +91,7 @@ export function TournamentSection() {
         </div>
 
         <article className="premium-panel grid overflow-hidden rounded-[2rem] lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="relative min-h-[220px] overflow-hidden bg-[radial-gradient(circle_at_30%_30%,rgba(223,255,87,0.22),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(185,154,99,0.25),transparent_45%),#0d0b0a] lg:min-h-full">
+          <div className="relative aspect-video overflow-hidden lg:aspect-auto lg:min-h-[320px] bg-[radial-gradient(circle_at_30%_30%,rgba(223,255,87,0.22),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(185,154,99,0.25),transparent_45%),#0d0b0a]">
             {t.cover_url ? (
               // Cover lives on the tournament platform (arbitrary host), so a plain lazy <img>.
               // eslint-disable-next-line @next/next/no-img-element
@@ -101,10 +102,10 @@ export function TournamentSection() {
               </div>
             )}
             <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,7,7,0.75),transparent_55%)]" />
-            {t.prize_pool && (
+            {t.prize_pool && !t.cover_url && (
               <div className="absolute bottom-4 left-4 rounded-2xl border border-[rgba(223,255,87,0.3)] bg-black/60 px-4 py-2 backdrop-blur">
                 <div className="text-[11px] uppercase tracking-[0.2em] text-[rgba(246,240,231,0.75)]">Призовой фонд</div>
-                <div className="font-mono text-2xl font-semibold text-primary">{t.prize_pool}</div>
+                <div className="font-mono text-2xl font-semibold text-primary">{formatPrizePool(t.prize_pool)}</div>
               </div>
             )}
           </div>
