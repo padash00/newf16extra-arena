@@ -8,48 +8,46 @@ import { Camera, ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react"
 import AutoScroll from "embla-carousel-auto-scroll"
 
 const photos = [
-  "https://i.ibb.co/xqM1FSyf/DSCF9831.png",
-  "https://i.ibb.co/pBnzVKSg/DSCF9832.png",
-  "https://i.ibb.co/xtMy8xcj/DSCF9836.png",
-  "https://i.ibb.co/6c21xgPb/DSCF9838.png",
-  "https://i.ibb.co/MxBLQMzp/DSCF9839.png",
-  "https://i.ibb.co/1tDZyrmJ/DSCF9841.png",
-  "https://i.ibb.co/7x2jw7bZ/DSCF9844.png",
-  "https://i.ibb.co/qYk3LHbB/DSCF9845.png",
-  "https://i.ibb.co/9mNL8n0g/DSCF9849.png",
-  "https://i.ibb.co/6RyBVn0B/DSCF9850.png",
-  "https://i.ibb.co/Zpt97Nnz/DSCF9852.png",
-  "https://i.ibb.co/KzVwnJ13/DSCF9855.png",
-  "https://i.ibb.co/PvzB82B3/DSCF9857.png",
-  "https://i.ibb.co/xSwd1VwJ/DSCF9860.png",
-  "https://i.ibb.co/svNPNXdj/DSCF9861.png",
-  "https://i.ibb.co/Q7rwZWMF/DSCF9867.png",
-  "https://i.ibb.co/m5L9bncY/DSCF9873.png",
-  "https://i.ibb.co/YwC88YS/DSCF9879.png",
-  "https://i.ibb.co/FbV2cb72/DSCF9885.png",
-  "https://i.ibb.co/DHvf6Gtq/DSCF9894.png",
-  "https://i.ibb.co/tTdmWvZ2/DSCF9895.png",
-  "https://i.ibb.co/DDz2kFYV/DSCF9897.png",
-  "https://i.ibb.co/PZHZ6jZr/DSCF9906.png",
-  "https://i.ibb.co/3xng2kD/DSCF9910.png",
-  "https://i.ibb.co/0RDv4fYg/DSCF9920.png",
-  "https://i.ibb.co/s9VS3c9R/DSCF9924.png",
-  "https://i.ibb.co/PGzkBZCf/DSCF9928.png",
-  "https://i.ibb.co/wZGv0Kpp/DSCF9929.png",
-  "https://i.ibb.co/MxQGs3Y1/DSCF9934.png",
-  "https://i.ibb.co/PsRnT5pn/DSCF9940.png",
-  "https://i.ibb.co/fdhy31PP/DSCF9947.png",
-  "https://i.ibb.co/knwTTBY/DSCF9950.png",
-  "https://i.ibb.co/7dbjfpVm/DSCF9959.png",
-  "https://i.ibb.co/RGFBn7jC/DSCF9969.png",
-  "https://i.ibb.co/SwppZn7V/DSCF9983.png",
-  "https://i.ibb.co/Y72P8LG2/DSCF9987.png",
-  "https://i.ibb.co/4gtDh6db/DSCF9995.png",
-  "https://i.ibb.co/tpsmptjV/DSCF9997.png",
-  "https://i.ibb.co/S7v2SJKf/DSCF9998.png",
-  "https://i.ibb.co/C5X03Qqx/IMG-7155.png",
-  "https://i.ibb.co/nMTsJKk7/IMG-7157.png",
-  "https://i.ibb.co/BH28FNNm/IMG-7158.png",
+  "/gallery/dscf9831.webp",
+  "/gallery/dscf9832.webp",
+  "/gallery/dscf9836.webp",
+  "/gallery/dscf9841.webp",
+  "/gallery/dscf9844.webp",
+  "/gallery/dscf9845.webp",
+  "/gallery/dscf9849.webp",
+  "/gallery/dscf9850.webp",
+  "/gallery/dscf9852.webp",
+  "/gallery/dscf9855.webp",
+  "/gallery/dscf9857.webp",
+  "/gallery/dscf9860.webp",
+  "/gallery/dscf9861.webp",
+  "/gallery/dscf9867.webp",
+  "/gallery/dscf9873.webp",
+  "/gallery/dscf9879.webp",
+  "/gallery/dscf9885.webp",
+  "/gallery/dscf9894.webp",
+  "/gallery/dscf9895.webp",
+  "/gallery/dscf9897.webp",
+  "/gallery/dscf9906.webp",
+  "/gallery/dscf9910.webp",
+  "/gallery/dscf9920.webp",
+  "/gallery/dscf9924.webp",
+  "/gallery/dscf9928.webp",
+  "/gallery/dscf9929.webp",
+  "/gallery/dscf9934.webp",
+  "/gallery/dscf9940.webp",
+  "/gallery/dscf9947.webp",
+  "/gallery/dscf9950.webp",
+  "/gallery/dscf9959.webp",
+  "/gallery/dscf9969.webp",
+  "/gallery/dscf9983.webp",
+  "/gallery/dscf9987.webp",
+  "/gallery/dscf9995.webp",
+  "/gallery/dscf9997.webp",
+  "/gallery/dscf9998.webp",
+  "/gallery/img-7155.webp",
+  "/gallery/img-7157.webp",
+  "/gallery/img-7158.webp",
 ]
 
 export function GallerySection() {
@@ -157,19 +155,19 @@ export function GallerySection() {
                   <CarouselItem
                     key={index}
                     className="basis-[86%] pl-2 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-                    onClick={() => openLightbox(index)}
                   >
-                    <div className="group relative h-[300px] cursor-pointer overflow-hidden rounded-[1.6rem] border border-[rgba(185,154,99,0.14)] bg-secondary/20">
+                    <button
+                      type="button"
+                      onClick={() => openLightbox(index)}
+                      aria-label={`Открыть фото ${index + 1}`}
+                      className="group relative block h-[300px] w-full cursor-pointer overflow-hidden rounded-[1.6rem] border border-[rgba(185,154,99,0.14)] bg-secondary/20 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    >
                       <Image
                         src={src}
                         alt={`Интерьер F16 Arena - фото ${index + 1}`}
                         fill
-                        sizes="(max-width: 640px) 86vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes="(max-width: 640px) 86vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading={index < 4 ? "eager" : "lazy"}
-                        priority={index < 4}
-                        quality={80}
-                        unoptimized
                       />
                       <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(8,7,7,0.72),rgba(8,7,7,0.08))]" />
                       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
@@ -177,11 +175,11 @@ export function GallerySection() {
                           <div className="text-[11px] uppercase tracking-[0.18em] text-[rgba(185,154,99,0.95)]">F16 Arena</div>
                           <div className="mt-1 text-sm font-medium text-foreground">Фото {index + 1}</div>
                         </div>
-                        <div className="rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100">
+                        <div className="rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden>
                           Открыть
                         </div>
                       </div>
-                    </div>
+                    </button>
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -229,12 +227,10 @@ export function GallerySection() {
           <div className="relative m-4 h-full max-h-[90vh] w-full max-w-7xl" onClick={(e) => e.stopPropagation()}>
             <Image
               src={photos[currentIndex]}
-              alt={`Фото ${currentIndex + 1}`}
+              alt={`Интерьер F16 Arena - фото ${currentIndex + 1}`}
               fill
+              sizes="100vw"
               className="object-contain"
-              quality={100}
-              unoptimized
-              priority
             />
           </div>
         </div>
