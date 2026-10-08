@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { siteContent } from "@/lib/site-content"
 import { BrandLogo } from "@/components/brand-logo"
+import { useTournament } from "@/components/tournament/tournament-provider"
+import { TOURNAMENT_SITE_URL, isLiveLike, withFrom } from "@/lib/tournament"
 
 const navLinks = [
   { href: "#hero", label: "Главная" },
@@ -21,6 +23,15 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("hero")
   const [scrollProgress, setScrollProgress] = useState(0)
+  const tournament = useTournament()
+  const tournamentLive = tournament?.status === "live"
+  const tournamentHref = withFrom(isLiveLike(tournament) && tournament ? tournament.url : TOURNAMENT_SITE_URL)
+  const liveDot = isLiveLike(tournament) ? (
+    <span className="relative ml-1.5 inline-flex h-2 w-2" aria-hidden>
+      <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", tournamentLive ? "bg-[#ff3b30]" : "bg-amber-400")} />
+      <span className={cn("relative inline-flex h-2 w-2 rounded-full", tournamentLive ? "bg-[#ff3b30]" : "bg-amber-400")} />
+    </span>
+  ) : null
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,6 +138,14 @@ export function Navbar() {
                   </a>
                 )
               })}
+              <a
+                href={tournamentHref}
+                className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-secondary/70"
+                aria-label={isLiveLike(tournament) ? "Турниры — сейчас идёт турнир" : "Турниры"}
+              >
+                Турниры
+                {liveDot}
+              </a>
             </nav>
 
             <div className="hidden items-center gap-3 lg:flex">
@@ -150,7 +169,8 @@ export function Navbar() {
             <button
               onClick={() => setIsOpen((prev) => !prev)}
               className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(185,154,99,0.22)] bg-card/80 text-foreground transition-colors hover:bg-secondary lg:hidden"
-              aria-label="Меню"
+              aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-expanded={isOpen}
             >
               {isOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -159,8 +179,9 @@ export function Navbar() {
           <div
             className={cn(
               "overflow-hidden transition-all duration-300 lg:hidden",
-              isOpen ? "max-h-[520px] pt-3 opacity-100" : "max-h-0 opacity-0",
+              isOpen ? "max-h-[620px] pt-3 opacity-100" : "max-h-0 opacity-0",
             )}
+            inert={!isOpen}
           >
             <div className="rounded-[1.75rem] border border-[rgba(185,154,99,0.22)] bg-background/96 p-4 shadow-[0_24px_48px_rgba(0,0,0,0.25)] backdrop-blur-xl">
               <div className="mb-3 flex items-center justify-between rounded-2xl border border-[rgba(185,154,99,0.18)] bg-card/70 px-4 py-3">
@@ -205,6 +226,18 @@ export function Navbar() {
                     </a>
                   )
                 })}
+                <a
+                  href={tournamentHref}
+                  className="flex items-center justify-between rounded-2xl bg-[rgba(223,255,87,0.08)] px-4 py-3 text-sm font-semibold text-primary shadow-[inset_0_0_0_1px_rgba(223,255,87,0.22)]"
+                >
+                  <span className="inline-flex items-center">
+                    Турниры
+                    {liveDot}
+                  </span>
+                  <span className="text-xs font-medium text-[rgba(246,240,231,0.7)]">
+                    {tournamentLive ? "LIVE" : tournament?.status === "checkin" ? "чек-ин" : "tournament.f16-arena.kz"}
+                  </span>
+                </a>
               </nav>
 
               <div className="mt-4 grid grid-cols-2 gap-2">

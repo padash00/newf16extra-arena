@@ -5,9 +5,18 @@ import { MessageCircle, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { siteContent } from "@/lib/site-content"
 import { cn } from "@/lib/utils"
+import { useTournament } from "@/components/tournament/tournament-provider"
+import { withFrom } from "@/lib/tournament"
 
 export function MobileCtaBar() {
   const [isVisible, setIsVisible] = useState(false)
+  const tournament = useTournament()
+  const tournamentLink =
+    tournament?.status === "live" || tournament?.status === "checkin"
+      ? { href: tournament.watch_url, label: tournament.status === "live" ? "● LIVE · смотреть турнир" : "Турнир: чек-ин" }
+      : tournament?.status === "registration"
+        ? { href: tournament.register_url, label: "Турнир: регистрация" }
+        : null
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,11 +50,24 @@ export function MobileCtaBar() {
         isVisible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0",
       )}
       style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 0.75rem)" }}
+      inert={!isVisible}
     >
       <div className="mx-auto max-w-md rounded-[1.6rem] border border-[rgba(185,154,99,0.2)] bg-background/96 p-3 shadow-[0_-20px_46px_rgba(0,0,0,0.28)] backdrop-blur-xl">
         <div className="mb-3 flex items-center justify-between gap-3 text-xs">
           <span className="font-semibold text-foreground">{siteContent.brand.workingLabel}</span>
-          <span className="text-[rgba(185,154,99,0.9)]">Premium booking</span>
+          {tournamentLink ? (
+            <a
+              href={withFrom(tournamentLink.href)}
+              className={cn(
+                "rounded-full px-2.5 py-1 font-semibold",
+                tournament?.status === "live" ? "bg-[rgba(255,59,48,0.16)] text-[#ff6b61]" : "bg-[rgba(223,255,87,0.1)] text-primary",
+              )}
+            >
+              {tournamentLink.label}
+            </a>
+          ) : (
+            <span className="text-[rgba(185,154,99,0.9)]">Premium booking</span>
+          )}
         </div>
 
         <div className="grid grid-cols-[1fr_auto] gap-2">

@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { BookingModal } from "@/components/booking-modal"
 import { siteContent } from "@/lib/site-content"
+import { TournamentHeroBanner, TournamentHeroCta } from "@/components/tournament/tournament-hero"
 
 const heroIcons = {
   monitor: Monitor,
@@ -113,6 +114,8 @@ export function HeroSection() {
       <div className="container relative z-10 mx-auto px-4 pb-12">
         <div className="grid items-center gap-10 xl:grid-cols-[1.15fr_0.85fr]">
           <div className="max-w-3xl animate-in slide-in-from-left-10 duration-700">
+            <TournamentHeroBanner />
+
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[rgba(185,154,99,0.24)] bg-[rgba(18,16,15,0.74)] px-4 py-2 text-sm text-foreground shadow-[0_16px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl">
               <span className="inline-flex h-2 w-2 rounded-full bg-primary shadow-[0_0_20px_rgba(223,255,87,0.55)]" />
               {siteContent.hero.badge}
@@ -139,7 +142,7 @@ export function HeroSection() {
               {siteContent.hero.description}
             </p>
 
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col flex-wrap gap-4 sm:flex-row">
               <Button
                 size="lg"
                 onClick={() => setIsBookingOpen(true)}
@@ -156,6 +159,7 @@ export function HeroSection() {
               >
                 Смотреть зоны и прайс
               </Button>
+              <TournamentHeroCta />
             </div>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
