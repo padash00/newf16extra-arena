@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Clock,
   Copy,
+  Download,
   ExternalLink,
   Gamepad2,
+  Headphones,
   Instagram,
   MapPin,
   MessageCircle,
@@ -22,6 +24,77 @@ const socialIcons = {
   Instagram,
   Telegram: Send,
   WhatsApp: MessageCircle,
+}
+
+const TS_ADDRESS = "f16-arena.kz"
+const TS_STATUS_URL = "https://ts.f16-arena.kz/status.json"
+
+function TeamSpeakCard() {
+  const [online, setOnline] = useState<{ online: number; max: number } | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    let alive = true
+    const load = () =>
+      fetch(TS_STATUS_URL, { cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((s) => alive && s && setOnline({ online: s.online, max: s.max }))
+        .catch(() => {})
+    load()
+    const t = setInterval(load, 30000)
+    return () => {
+      alive = false
+      clearInterval(t)
+    }
+  }, [])
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(TS_ADDRESS)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="premium-panel rounded-[1.6rem] p-5">
+      <div className="flex items-center gap-3">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(223,255,87,0.12)] text-primary">
+          <Headphones className="h-5 w-5" />
+        </div>
+        <div className="flex-1">
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[rgba(185,154,99,0.9)]">TeamSpeak клуба</div>
+          <button
+            onClick={copy}
+            className="mt-1 block text-lg font-semibold text-foreground transition-colors hover:text-primary"
+            title="Скопировать адрес"
+          >
+            {copied ? "Скопировано" : TS_ADDRESS}
+          </button>
+        </div>
+        {online && (
+          <div className="rounded-full bg-primary/12 px-3 py-1 text-xs font-medium text-primary">
+            {online.online > 0 ? `онлайн ${online.online}/${online.max}` : "сервер работает"}
+          </div>
+        )}
+      </div>
+      <div className="mt-4 text-sm leading-7 text-muted-foreground">
+        Голосовой чат для команд и турниров: каналы CS2, Dota 2, Valorant, PUBG и свои комнаты.
+      </div>
+      <div className="mt-5 flex gap-2">
+        <Button asChild className="h-11 flex-1 rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
+          <a href={`ts3server://${TS_ADDRESS}`}>Подключиться</a>
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          className="h-11 rounded-full border-[rgba(185,154,99,0.18)] bg-card/60 px-4"
+        >
+          <a href="https://www.teamspeak.com/ru/downloads/" target="_blank" rel="noreferrer" aria-label="Скачать TeamSpeak">
+            <Download className="h-4 w-4" />
+          </a>
+        </Button>
+      </div>
+    </div>
+  )
 }
 
 export function ContactsSection() {
@@ -180,6 +253,8 @@ export function ContactsSection() {
                 </div>
               </div>
             </div>
+
+            <TeamSpeakCard />
           </div>
 
           <div className="premium-panel relative overflow-hidden rounded-[2rem] p-3">
