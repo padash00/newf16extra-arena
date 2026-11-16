@@ -8,7 +8,6 @@ import {
   Download,
   ExternalLink,
   Gamepad2,
-  Headphones,
   Instagram,
   MapPin,
   MessageCircle,
