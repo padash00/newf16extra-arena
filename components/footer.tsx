@@ -134,8 +134,10 @@ export function Footer() {
                   </div>
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
                     <Headphones className="h-4 w-4 shrink-0 text-primary" />
-                    <a href="ts3server://f16-arena.kz" className="hover:text-primary">
-                      TeamSpeak: f16-arena.kz
+                    <a href="ts3server://f16-arena.kz" className="inline-flex items-center gap-2 hover:text-primary">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/teamspeak.svg" alt="TeamSpeak" width={74} height={20} className="h-5 w-auto" />
+                      f16-arena.kz
                     </a>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">

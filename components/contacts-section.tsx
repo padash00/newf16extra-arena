@@ -57,11 +57,11 @@ function TeamSpeakCard() {
   return (
     <div className="premium-panel rounded-[1.6rem] p-5">
       <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(223,255,87,0.12)] text-primary">
-          <Headphones className="h-5 w-5" />
-        </div>
+        {/* логотип из официального набора TeamSpeak (teamspeak.com/en/mediakit) — без изменений */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/teamspeak.svg" alt="TeamSpeak" width={118} height={32} className="h-8 w-auto shrink-0" />
         <div className="flex-1">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-[rgba(185,154,99,0.9)]">TeamSpeak клуба</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[rgba(185,154,99,0.9)]">Сервер клуба</div>
           <button
             onClick={copy}
             className="mt-1 block text-lg font-semibold text-foreground transition-colors hover:text-primary"
