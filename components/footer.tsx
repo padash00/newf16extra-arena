@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ArrowUp, Clock, CreditCard, Instagram, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react"
+import { ArrowUp, Clock, CreditCard, Headphones, Instagram, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { siteContent } from "@/lib/site-content"
 import { BrandLogo } from "@/components/brand-logo"
@@ -130,6 +130,12 @@ export function Footer() {
                     <Mail className="h-4 w-4 shrink-0 text-primary" />
                     <a href={`mailto:${siteContent.brand.email}`} className="hover:text-primary">
                       {siteContent.brand.email}
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <Headphones className="h-4 w-4 shrink-0 text-primary" />
+                    <a href="ts3server://f16-arena.kz" className="hover:text-primary">
+                      TeamSpeak: f16-arena.kz
                     </a>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
